@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Tracker — Colton Riley</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: var(--cream); }
+
+    .tracker-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* Header */
+    .tracker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .tracker-header h1 {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--palm);
+    }
+    .tracker-header h1 em { font-style: italic; color: var(--mint); }
+    .back-link {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.18s;
+    }
+    .back-link:hover { color: var(--palm); }
+
+    /* Add stock form */
+    .add-form {
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .add-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      min-width: 140px;
+    }
+    .add-form-group label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .add-form-group input {
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      color: var(--text);
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.65rem 0.85rem;
+      outline: none;
+      transition: border-color 0.18s;
+      text-transform: uppercase;
+    }
+    .add-form-group input:focus { border-color: var(--mint); background: white; }
+    .add-form-group input::placeholder { text-transform: none; opacity: 0.5; }
+    .btn-add {
+      background: var(--palm);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.68rem 1.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.18s;
+      white-space: nowrap;
+    }
+    .btn-add:hover { background: var(--mint); transform: translateY(-1px); }
+
+    /* Portfolio summary */
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .summary-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .summary-value {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--palm);
+      line-height: 1;
+    }
+    .summary-value.positive { color: #2d7a50; }
+    .summary-value.negative { color: #c0392b; }
+
+    /* Stock grid */
+    .stocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    /* Stock card */
+    .stock-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .stock-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,74,46,0.13); }
+    .stock-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .stock-ticker {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--palm);
+      letter-spacing: 0.02em;
+    }
+    .stock-name {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .stock-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: color 0.18s, background 0.18s;
+      line-height: 1;
+    }
+    .stock-remove:hover { color: var(--pink); background: var(--pink-lt); }
+
+    .stock-price {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .stock-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+    }
+    .stock-change.positive {
+      background: var(--mint-lt);
+      color: #1a5c38;
+    }
+    .stock-change.negative {
+      background: #fde8e8;
+      color: #c0392b;
+    }
+    .stock-change.neutral {
+      background: var(--cream);
+      color: var(--muted);
+    }
+
+    .stock-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .stock-meta-item span {
+      display: block;
+      font-weight: 500;
+      color: var(--text);
+      font-size: 0.8rem;
+      margin-top: 1px;
+    }
+
+    /* Notes field */
+    .stock-notes {
+      margin-top: 0.75rem;
+    }
+    .stock-notes input {
+      width: 100%;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 0.6rem;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+    .stock-notes input:focus { border-color: var(--mint); color: var(--text); background: white; }
+    .stock-notes input::placeholder { opacity: 0.55; }
+
+    /* Loading / error states */
+    .stock-card.loading .stock-price { opacity: 0.3; }
+    .stock-card.loading .stock-change { opacity: 0.3; }
+    .loading-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--mint);
+      animation: pulse 1s ease-in-out infinite;
+      margin-right: 3px;
+    }
+    @keyframes pulse { 0%,100% { opacity:0.2; } 50% { opacity:1; } }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
+    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .empty-state p { font-size: 0.88rem; line-height: 1.7; }
+
+    /* Refresh controls */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .toolbar-left {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .btn-refresh {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      padding: 0.35rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.18s, color 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-refresh:hover { border-color: var(--mint); color: var(--palm); }
+    .btn-refresh.spinning svg { animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-banner {
+      background: #fff4f0;
+      border: 1px solid rgba(255,140,66,0.3);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: #7a3a10;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .add-form { flex-direction: column; }
+      .btn-add { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Colton Riley</a>
+  <ul class="nav-links">
+    <li class="nav-private"><a href="private.html">← Dashboard</a></li>
+  </ul>
+</nav>
+
+<div class="tracker-wrap">
+
+  <div class="tracker-header">
+    <div>
+      <div class="section-label">Private Dashboard</div>
+      <h1>Stock <em>Tracker.</em></h1>
+    </div>
+    <a href="private.html" class="back-link">← Back to Dashboard</a>
+  </div>
+
+  <!-- Add stock -->
+  <div class="add-form">
+    <div class="add-form-group">
+      <label for="ticker-input">Ticker Symbol</label>
+      <input type="text" id="ticker-input" placeholder="e.g. AAPL" maxlength="10" />
+    </div>
+    <div class="add-form-group">
+      <label for="note-input">Note (optional)</label>
+      <input type="text" id="note-input" placeholder="e.g. Long-term hold" style="text-transform:none;" />
+    </div>
+    <button class="btn-add" onclick="addStock()">+ Add Stock</button>
+  </div>
+
+  <!-- Summary strip -->
+  <div class="summary-strip" id="summary-strip" style="display:none;">
+    <div class="summary-card">
+      <div class="summary-label">Stocks Tracked</div>
+      <div class="summary-value" id="sum-count">—</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Best Today</div>
+      <div class="summary-value positive" id="sum-best">—</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Worst Today</div>
+      <div class="summary-value negative" id="sum-worst">—</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Last Refreshed</div>
+      <div class="summary-value" id="sum-time" style="font-size:1rem;">—</div>
+    </div>
+  </div>
+
+  <div class="error-banner" id="error-banner">
+    ⚠️ Live price data unavailable — showing last cached prices. Check your connection or try refreshing.
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar" id="toolbar" style="display:none;">
+    <div class="toolbar-left" id="market-status">Loading market status...</div>
+    <button class="btn-refresh" id="refresh-btn" onclick="refreshAll()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Refresh Prices
+    </button>
+  </div>
+
+  <!-- Stock cards -->
+  <div class="stocks-grid" id="stocks-grid">
+    <div class="empty-state">
+      <div class="empty-icon">📈</div>
+      <p>No stocks added yet.<br>Type a ticker symbol above and hit <strong>Add Stock</strong> to get started.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── STORAGE ────────────────────────────────────────────────
+  const STORAGE_KEY = 'cr_stocks_v2';
+  const PRICES_KEY  = 'cr_prices_v2';
+
+  function loadStocks() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+  function saveStocks(stocks) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stocks));
+  }
+  function loadPrices() {
+    try { return JSON.parse(localStorage.getItem(PRICES_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function savePrices(prices) {
+    localStorage.setItem(PRICES_KEY, JSON.stringify(prices));
+  }
+
+  let stocks = loadStocks();   // [{ticker, note}]
+  let prices = loadPrices();   // {ticker: {price, change, changePct, high, low, volume, name, timestamp}}
+
+  // ── PRICE FETCHING ─────────────────────────────────────────
+  // Uses Yahoo Finance unofficial quote endpoint (no API key needed)
+  async function fetchPrice(ticker) {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    const result = data.chart?.result?.[0];
+    if (!result) throw new Error('No data');
+    const meta = result.meta;
+    const price = meta.regularMarketPrice;
+    const prev  = meta.chartPreviousClose || meta.previousClose;
+    const change    = price - prev;
+    const changePct = (change / prev) * 100;
+    return {
+      price:     price,
+      change:    change,
+      changePct: changePct,
+      high:      meta.regularMarketDayHigh,
+      low:       meta.regularMarketDayLow,
+      volume:    meta.regularMarketVolume,
+      name:      meta.longName || meta.shortName || ticker,
+      marketState: meta.marketState,
+      timestamp: Date.now()
+    };
+  }
+
+  async function refreshAll() {
+    if (stocks.length === 0) return;
+    const btn = document.getElementById('refresh-btn');
+    btn.classList.add('spinning');
+    document.getElementById('error-banner').style.display = 'none';
+
+    let anyError = false;
+    for (const s of stocks) {
+      try {
+        const data = await fetchPrice(s.ticker);
+        prices[s.ticker] = data;
+      } catch(e) {
+        anyError = true;
+      }
+    }
+    savePrices(prices);
+    if (anyError) document.getElementById('error-banner').style.display = 'block';
+
+    renderAll();
+    btn.classList.remove('spinning');
+  }
+
+  // ── RENDER ─────────────────────────────────────────────────
+  function fmt(n) {
+    if (n == null || isNaN(n)) return '—';
+    return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function fmtVol(n) {
+    if (!n) return '—';
+    if (n >= 1e9) return (n/1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return (n/1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+    return n.toString();
+  }
+
+  function renderAll() {
+    const grid = document.getElementById('stocks-grid');
+    const summary = document.getElementById('summary-strip');
+    const toolbar = document.getElementById('toolbar');
+
+    if (stocks.length === 0) {
+      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">📈</div><p>No stocks added yet.<br>Type a ticker symbol above and hit <strong>Add Stock</strong> to get started.</p></div>`;
+      summary.style.display = 'none';
+      toolbar.style.display = 'none';
+      return;
+    }
+
+    summary.style.display = 'grid';
+    toolbar.style.display = 'flex';
+
+    // Build cards
+    grid.innerHTML = stocks.map((s, i) => {
+      const p = prices[s.ticker];
+      const hasData = p && p.price != null;
+      const chg = hasData ? p.change : null;
+      const chgClass = !hasData ? 'neutral' : chg >= 0 ? 'positive' : 'negative';
+      const chgIcon = !hasData ? '' : chg >= 0 ? '▲' : '▼';
+      const marketBadge = p?.marketState === 'PRE' ? ' · Pre-market' : p?.marketState === 'POST' ? ' · After-hours' : '';
+
+      return `
+        <div class="stock-card${hasData ? '' : ' loading'}" id="card-${s.ticker}">
+          <div class="stock-card-top">
+            <div>
+              <div class="stock-ticker">${s.ticker}</div>
+              <div class="stock-name">${hasData ? (p.name.length > 28 ? p.name.substring(0,28)+'…' : p.name) : '<span class="loading-dot"></span> Loading...'}</div>
+            </div>
+            <button class="stock-remove" onclick="removeStock('${s.ticker}')" title="Remove">✕</button>
+          </div>
+          <div class="stock-price">$${hasData ? fmt(p.price) : '—'}</div>
+          <span class="stock-change ${chgClass}">
+            ${chgIcon} ${hasData ? fmt(Math.abs(chg)) + ' (' + Math.abs(p.changePct).toFixed(2) + '%)' : '—'}
+          </span>
+          <div class="stock-meta">
+            <div class="stock-meta-item">High<span>$${hasData ? fmt(p.high) : '—'}</span></div>
+            <div class="stock-meta-item">Low<span>$${hasData ? fmt(p.low) : '—'}</span></div>
+            <div class="stock-meta-item">Volume<span>${hasData ? fmtVol(p.volume) : '—'}</span></div>
+          </div>
+          <div class="stock-notes">
+            <input type="text" placeholder="Add a note..." value="${s.note || ''}"
+              onchange="updateNote('${s.ticker}', this.value)"
+              onblur="updateNote('${s.ticker}', this.value)" />
+          </div>
+        </div>`;
+    }).join('');
+
+    // Update summary
+    document.getElementById('sum-count').textContent = stocks.length;
+
+    const priceEntries = stocks.map(s => prices[s.ticker]).filter(Boolean);
+    if (priceEntries.length > 0) {
+      const best  = priceEntries.reduce((a,b) => (b.changePct > a.changePct ? b : a));
+      const worst = priceEntries.reduce((a,b) => (b.changePct < a.changePct ? b : a));
+      document.getElementById('sum-best').textContent  = best.changePct  >= 0 ? '+' + best.changePct.toFixed(2)  + '%' : best.changePct.toFixed(2)  + '%';
+      document.getElementById('sum-worst').textContent = worst.changePct >= 0 ? '+' + worst.changePct.toFixed(2) + '%' : worst.changePct.toFixed(2) + '%';
+    }
+
+    const lastTs = Math.max(...Object.values(prices).map(p => p?.timestamp || 0));
+    if (lastTs > 0) {
+      const d = new Date(lastTs);
+      document.getElementById('sum-time').textContent = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }
+
+    // Market status
+    const anyPrice = Object.values(prices)[0];
+    if (anyPrice?.marketState) {
+      const states = { 'REGULAR': '🟢 Market Open', 'PRE': '🟡 Pre-Market', 'POST': '🟠 After Hours', 'CLOSED': '🔴 Market Closed' };
+      document.getElementById('market-status').textContent = states[anyPrice.marketState] || anyPrice.marketState;
+    }
+  }
+
+  // ── ACTIONS ────────────────────────────────────────────────
+  function addStock() {
+    const input = document.getElementById('ticker-input');
+    const noteInput = document.getElementById('note-input');
+    const ticker = input.value.trim().toUpperCase();
+    if (!ticker) return;
+    if (stocks.find(s => s.ticker === ticker)) {
+      input.style.borderColor = 'var(--pink)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      return;
+    }
+    stocks.push({ ticker, note: noteInput.value.trim() });
+    saveStocks(stocks);
+    input.value = '';
+    noteInput.value = '';
+    renderAll();
+    // Fetch price for new stock immediately
+    fetchPrice(ticker).then(data => {
+      prices[ticker] = data;
+      savePrices(prices);
+      renderAll();
+    }).catch(() => {});
+  }
+
+  function removeStock(ticker) {
+    stocks = stocks.filter(s => s.ticker !== ticker);
+    delete prices[ticker];
+    saveStocks(stocks);
+    savePrices(prices);
+    renderAll();
+  }
+
+  function updateNote(ticker, note) {
+    const s = stocks.find(s => s.ticker === ticker);
+    if (s) { s.note = note; saveStocks(stocks); }
+  }
+
+  // Allow Enter key in ticker input
+  document.getElementById('ticker-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addStock();
+  });
+  document.getElementById('note-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addStock();
+  });
+
+  // ── INIT ───────────────────────────────────────────────────
+  renderAll();
+
+  // Load cached prices immediately, then refresh in background
+  if (stocks.length > 0) {
+    refreshAll();
+    // Auto-refresh every 5 minutes while page is open
+    setInterval(refreshAll, 5 * 60 * 1000);
+  }
+</script>
+</body>
+</html>
