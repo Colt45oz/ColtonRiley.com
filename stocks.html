@@ -421,12 +421,14 @@
   let prices = loadPrices();   // {ticker: {price, change, changePct, high, low, volume, name, timestamp}}
 
   // ── PRICE FETCHING ─────────────────────────────────────────
-  // Uses Yahoo Finance unofficial quote endpoint (no API key needed)
+  // Routes through allorigins.win CORS proxy to avoid browser CORS blocks
   async function fetchPrice(ticker) {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
-    const res = await fetch(url);
+    const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`;
+    const res = await fetch(proxyUrl);
     if (!res.ok) throw new Error('Network error');
-    const data = await res.json();
+    const wrapper = await res.json();
+    const data = JSON.parse(wrapper.contents);
     const result = data.chart?.result?.[0];
     if (!result) throw new Error('No data');
     const meta = result.meta;
