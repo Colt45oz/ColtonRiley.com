@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private — Colton Riley</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: var(--palm); min-height: 100vh; }
+
+    /* ── LOGIN SCREEN ─────────────────────────── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.06;
+    }
+    .login-bg-1 { width:500px; height:500px; background:var(--gold); top:-150px; right:-150px; }
+    .login-bg-2 { width:300px; height:300px; background:var(--pink); bottom:-80px; left:-80px; }
+
+    .login-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .login-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .login-card h2 {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--palm);
+      margin-bottom: 0.4rem;
+    }
+    .login-card .sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .login-input-wrap {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+    #password-input {
+      width: 100%;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      outline: none;
+      text-align: center;
+      letter-spacing: 0.15em;
+      transition: border-color 0.18s;
+    }
+    #password-input:focus { border-color: var(--mint); background: white; }
+    #password-input.error { border-color: #e24b4a; animation: shake 0.4s ease; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    #login-error {
+      color: #a32d2d;
+      font-size: 0.78rem;
+      margin-top: -0.75rem;
+      margin-bottom: 1rem;
+      min-height: 1.2em;
+    }
+    .login-btn {
+      width: 100%;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+    .login-hint {
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* ── DASHBOARD ────────────────────────────── */
+    #dashboard {
+      display: none;
+      background: var(--cream);
+      min-height: 100vh;
+    }
+    .dashboard-header {
+      background: var(--palm);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dashboard-title {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+    .dashboard-logout {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.3rem 0.85rem;
+      border-radius: 50px;
+      background: none;
+      transition: 0.2s;
+      font-family: var(--font-sans);
+    }
+    .dashboard-logout:hover { color: var(--pink); border-color: var(--pink); }
+
+    .dash-section { padding: 2rem; }
+    .dash-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--palm);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--mint-lt);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.85rem;
+    }
+    .dash-link {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: border-color 0.18s, transform 0.18s;
+    }
+    .dash-link:hover { border-color: var(--mint); transform: translateY(-2px); }
+    .dash-link-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .dash-link small {
+      display: block;
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 1px;
+    }
+
+    /* Tools (coming soon) */
+    .coming-soon-card {
+      background: white;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .coming-soon-card .cs-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .coming-soon-card strong { color: var(--palm); display: block; font-size: 0.9rem; margin-bottom: 0.25rem; }
+
+    @media (max-width: 600px) {
+      .login-card { padding: 2rem 1.5rem; }
+      .dash-section { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ───────────────────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-bg-circle login-bg-1"></div>
+  <div class="login-bg-circle login-bg-2"></div>
+  <div class="login-card">
+    <div class="login-icon">🔒</div>
+    <h2>Private Access</h2>
+    <p class="sub">This area is for Colton only. Enter the password to continue.</p>
+    <div class="login-input-wrap">
+      <input
+        type="password"
+        id="password-input"
+        placeholder="Enter password"
+        autocomplete="current-password"
+        onkeydown="if(event.key==='Enter') attemptLogin()"
+      />
+    </div>
+    <div id="login-error"></div>
+    <button class="btn btn-primary login-btn" onclick="attemptLogin()">Unlock Dashboard →</button>
+    <p class="login-hint">
+      Lost? <a href="index.html" style="color:var(--mint);">Return to main site</a>
+    </p>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ──────────────────────────────────────────────── -->
+<div id="dashboard">
+  <div class="dashboard-header">
+    <div class="dashboard-title">Colton Riley — Private Dashboard</div>
+    <button class="dashboard-logout" onclick="logout()">Sign Out</button>
+  </div>
+
+  <!-- Work Tools -->
+  <div class="dash-section">
+    <h2>🏢 Work Resources</h2>
+    <div class="dash-grid">
+      <a href="https://app.smartsheet.com" target="_blank" class="dash-link">
+        <span class="dash-link-icon">📋</span>
+        <div>Smartsheet<small>Project tracking</small></div>
+      </a>
+      <a href="https://www.tableau.com" target="_blank" class="dash-link">
+        <span class="dash-link-icon">📊</span>
+        <div>Tableau<small>Data visualization</small></div>
+      </a>
+      <a href="https://alteryx.com" target="_blank" class="dash-link">
+        <span class="dash-link-icon">⚙️</span>
+        <div>Alteryx<small>Data analytics</small></div>
+      </a>
+      <a href="https://claude.ai" target="_blank" class="dash-link">
+        <span class="dash-link-icon">🤖</span>
+        <div>Claude AI<small>AI assistant</small></div>
+      </a>
+      <a href="https://aws.amazon.com" target="_blank" class="dash-link">
+        <span class="dash-link-icon">☁️</span>
+        <div>AWS Console<small>Cloud services</small></div>
+      </a>
+      <a href="https://github.com/Colt45oz" target="_blank" class="dash-link">
+        <span class="dash-link-icon">⌨️</span>
+        <div>GitHub<small>Colt45oz</small></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Finance -->
+  <div class="dash-section">
+    <h2>📈 Finance & Markets</h2>
+    <div class="dash-grid">
+      <a href="stocks.html" class="dash-link" style="border-color:rgba(61,170,110,0.4); background:var(--mint-lt);">
+        <span class="dash-link-icon">📉</span>
+        <div style="color:var(--palm);">Stock Tracker<small style="color:var(--muted);">Live prices · Coming soon</small></div>
+      </a>
+      <a href="https://finance.yahoo.com" target="_blank" class="dash-link">
+        <span class="dash-link-icon">💹</span>
+        <div>Yahoo Finance<small>Markets & news</small></div>
+      </a>
+      <a href="https://www.finra.org" target="_blank" class="dash-link">
+        <span class="dash-link-icon">📜</span>
+        <div>FINRA<small>Regulatory resources</small></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Personal Tools -->
+  <div class="dash-section">
+    <h2>🏃 Personal Tools</h2>
+    <div class="dash-grid">
+      <a href="pace.html" class="dash-link" style="border-color:rgba(252,76,2,0.4); background:#fff4f0;">
+        <span class="dash-link-icon">⏱️</span>
+        <div style="color:var(--palm);">Pace Calculator<small style="color:var(--muted);">Running · Coming soon</small></div>
+      </a>
+      <a href="https://www.strava.com/athlete/training" target="_blank" class="dash-link">
+        <span class="dash-link-icon">🏅</span>
+        <div>Strava Training<small>Activity log</small></div>
+      </a>
+      <a href="https://calendar.google.com" target="_blank" class="dash-link">
+        <span class="dash-link-icon">📅</span>
+        <div>Google Calendar<small>Schedule</small></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Notes / quick reference -->
+  <div class="dash-section">
+    <h2>📝 Quick Notes</h2>
+    <div style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1rem;">
+      <textarea
+        id="quick-notes"
+        style="width:100%; min-height:140px; border:none; outline:none; font-family:var(--font-sans); font-size:0.88rem; color:var(--text); background:transparent; resize:vertical; line-height:1.7;"
+        placeholder="Quick notes — saved locally in your browser..."
+        oninput="saveNotes()"
+      ></textarea>
+    </div>
+    <div style="font-size:0.7rem; color:var(--muted); margin-top:0.4rem;">Notes are saved to this browser only (localStorage).</div>
+  </div>
+
+  <footer style="background:var(--palm); color:rgba(255,255,255,0.4); padding:1.5rem 2rem; font-size:0.72rem;">
+    Private dashboard · coltonriley.com · Not indexed by search engines.
+  </footer>
+</div>
+
+<script>
+  /*
+    PASSWORD SETUP:
+    Change the value below to your desired password.
+    Note: For a public GitHub repo, this password IS visible in source code.
+    This provides protection from casual visitors but not determined ones.
+    To truly secure this, make your GitHub repo private.
+  */
+  const PASSWORD = 'charter2025';  // ← SET YOUR PASSWORD HERE
+
+  const SESSION_KEY = 'cr_auth';
+  const input = document.getElementById('password-input');
+  const error = document.getElementById('login-error');
+
+  // Auto-login if session exists
+  if (sessionStorage.getItem(SESSION_KEY) === '1') showDashboard();
+
+  function attemptLogin() {
+    const val = input.value;
+    if (val === PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      showDashboard();
+    } else {
+      input.classList.add('error');
+      error.textContent = 'Incorrect password. Try again.';
+      setTimeout(() => { input.classList.remove('error'); input.value = ''; }, 600);
+    }
+  }
+
+  function showDashboard() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.body.style.background = 'var(--cream)';
+    // Load saved notes
+    const saved = localStorage.getItem('cr_notes');
+    if (saved) document.getElementById('quick-notes').value = saved;
+  }
+
+  function logout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    location.reload();
+  }
+
+  function saveNotes() {
+    localStorage.setItem('cr_notes', document.getElementById('quick-notes').value);
+  }
+</script>
+</body>
+</html>

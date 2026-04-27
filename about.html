@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Colton Riley</title>
+  <meta name="description" content="Learn more about Colton Riley — MBA, Senior Data & Analytics Leader at Charter Communications, Stamford CT." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-layout {
+      display: grid;
+      grid-template-columns: 2fr 1.1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-photo-tall {
+      aspect-ratio: 3/4;
+      max-height: 520px;
+      background: linear-gradient(145deg, var(--mint-lt), var(--aqua-lt));
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-align: center;
+      gap: 0.5rem;
+      overflow: hidden;
+      position: sticky;
+      top: 80px;
+    }
+    .about-photo-tall img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .about-body p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+    .about-body .lead {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--palm);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Awards */
+    .award-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .award-row:last-child { border-bottom: none; }
+    .award-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gold-lt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .award-name {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--palm);
+    }
+    .award-org {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* Education cards */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .edu-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+    .edu-degree {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--palm);
+      margin-bottom: 0.2rem;
+    }
+    .edu-school {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.3rem;
+    }
+    .edu-year {
+      font-size: 0.75rem;
+      color: var(--pink);
+      font-weight: 500;
+    }
+
+    /* Certifications table */
+    .cert-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+    }
+    .cert-table th {
+      text-align: left;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.5rem 1rem;
+      background: var(--mint-lt);
+      font-weight: 500;
+    }
+    .cert-table th:first-child { border-radius: 8px 0 0 8px; }
+    .cert-table th:last-child { border-radius: 0 8px 8px 0; }
+    .cert-table td {
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+    .cert-table tr:last-child td { border-bottom: none; }
+    .cert-table td:nth-child(3) { color: var(--muted); font-size: 0.82rem; }
+
+    /* Skills grid */
+    .skills-section { background: var(--cream); }
+    .skills-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .skill-group h4 {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .skill-list li {
+      font-size: 0.88rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .skill-list li::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mint);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .about-layout { grid-template-columns: 1fr; }
+      .about-photo-tall { position: static; aspect-ratio: 1/1; max-height: 340px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Colton Riley</a>
+  <button class="nav-burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li class="nav-private"><a href="private.html">🔒 Private</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Get to know me</div>
+    <h1 class="page-hero-title">About <em>Colton.</em></h1>
+  </div>
+</div>
+
+<!-- ── ABOUT BODY ──────────────────────────────────────────────── -->
+<section style="background:white;">
+  <div class="section-inner">
+    <div class="about-layout">
+      <div class="about-body">
+        <p class="lead">"A data and analytics leader who believes that great compensation strategy is equal parts science and storytelling — and that the best insights don't live in the spreadsheet, they live in the decisions it enables."</p>
+
+        <p>I'm Colton Riley — an MBA-trained data leader currently serving as Lead Data & Reporting Analyst on Charter Communications' National Incentives team in Stamford, CT. My work sits at the intersection of compensation design, financial modeling, and organizational strategy, and I'm fortunate to do it at enterprise scale.</p>
+
+        <p>As a founding member of our National Incentives team, I helped nationalize a fragmented, regionally-siloed $50MM incentive program into a unified operation that now governs $1.2B in annual variable compensation paid to 40,000 employees across all of Charter's Small Business sales channels. This wasn't just a data migration — it was building the analytical infrastructure, governance frameworks, and stakeholder relationships from scratch.</p>
+
+        <p>More recently, I've led our team's adoption of AI tooling — specifically Claude, AWS, and Kiro — to streamline analyst workflows and automate reporting that previously consumed significant manual effort. I believe AI isn't a replacement for analytical rigor; it's a multiplier for it.</p>
+
+        <p>Before Charter, I spent several years in financial services as a Financial Advisor at Merrill Lynch and Oppenheimer, where I built a $38MM AUM book and collaborated on a $200MM Series B raise. Earlier in my career I worked in real estate finance, deploying $250MM+ for a publicly traded REIT and building the Excel-based systems that made it all trackable.</p>
+
+        <p>I hold an MBA from UC Irvine's Paul Merage School of Business, a B.A. in Economics from Hamilton College, and a CFP certificate from Bryant University. Outside work, I stay active — running and cycling around Stamford — and I'm always reading about where data, AI, and organizational design are heading next.</p>
+
+        <a href="Colton_Riley_Resume_2025.pdf" class="btn btn-primary" download style="margin-top:0.5rem;">Download Resume ↓</a>
+
+        <br><br>
+
+        <div class="section-label">Recognition</div>
+        <h3 class="section-title" style="font-size:1.5rem; margin-bottom:1rem;">Awards &amp; <em>Honors.</em></h3>
+        <div>
+          <div class="award-row">
+            <div class="award-icon">🏆</div>
+            <div>
+              <div class="award-name">Q3 2024 Excellence Award — Exceptional Executor</div>
+              <div class="award-org">Charter Communications · 2024</div>
+            </div>
+          </div>
+          <div class="award-row">
+            <div class="award-icon">⭐</div>
+            <div>
+              <div class="award-name">Outstanding Achievement Award</div>
+              <div class="award-org">Charter Communications · 2024</div>
+            </div>
+          </div>
+          <div class="award-row">
+            <div class="award-icon">🌟</div>
+            <div>
+              <div class="award-name">Rising Star — Top 40 Under 40</div>
+              <div class="award-org">HousingWire Magazine · 2015</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="about-photo-tall">
+          <!-- Replace with: <img src="photo.jpg" alt="Colton Riley" /> -->
+          <span style="font-size:3rem;">🌿</span>
+          <span style="font-size:0.78rem; color:var(--muted);">Add your photo here<br><code style="font-size:0.68rem; opacity:0.6;">photo.jpg</code></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ───────────────────────────────────────────────── -->
+<section style="background:var(--palm-lt); --palm-lt:#f0f8f4;">
+  <div class="section-inner">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Academic <em>Foundation.</em></h2>
+    <div class="divider"></div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="card-accent-bar" style="background:var(--mint);"></div>
+        <div class="edu-degree">Master of Business Administration</div>
+        <div class="edu-school">UC Irvine — Paul Merage School of Business</div>
+        <div class="edu-year">2013 · Dean's Leadership Circle Member</div>
+      </div>
+      <div class="edu-card">
+        <div class="card-accent-bar" style="background:var(--aqua);"></div>
+        <div class="edu-degree">Bachelor of Economics</div>
+        <div class="edu-school">Hamilton College</div>
+        <div class="edu-year">2006</div>
+      </div>
+      <div class="edu-card">
+        <div class="card-accent-bar" style="background:var(--gold);"></div>
+        <div class="edu-degree">Certified Financial Planner (CFP)</div>
+        <div class="edu-school">Bryant University</div>
+        <div class="edu-year">2019</div>
+      </div>
+    </div>
+
+    <br><br>
+    <div class="section-label">Licenses & Certifications</div>
+    <h3 class="section-title" style="font-size:1.4rem; margin-bottom:1rem;">Professional <em>Credentials.</em></h3>
+    <table class="cert-table">
+      <thead>
+        <tr>
+          <th>Credential</th>
+          <th>Issuer</th>
+          <th>Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Series 7 / Series 66</td><td>FINRA</td><td>2017</td></tr>
+        <tr><td>Life & Health Insurance License</td><td>FINRA</td><td>2017</td></tr>
+        <tr><td>CT Real Estate License #0804976</td><td>CT Dept. of Consumer Protection</td><td>2017</td></tr>
+        <tr><td>CA Real Estate License #1937160</td><td>California Dept. of Real Estate</td><td>2013</td></tr>
+        <tr><td>NMLS #1084799 — Mortgage Loan Originator</td><td>NMLS</td><td>2013</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SKILLS ─────────────────────────────────────────────────── -->
+<section class="skills-section">
+  <div class="section-inner">
+    <div class="section-label">Core Competencies</div>
+    <h2 class="section-title">What I <em>Do Best.</em></h2>
+    <div class="divider"></div>
+    <div class="skills-cols">
+      <div class="skill-group">
+        <h4>Compensation & Strategy</h4>
+        <ul class="skill-list">
+          <li>Sales Compensation Design</li>
+          <li>Incentive Plan Modeling</li>
+          <li>Budget Management ($30MM+)</li>
+          <li>Executive Presentations (VP/SVP)</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Data & Analytics</h4>
+        <ul class="skill-list">
+          <li>Excel (Advanced) — XLOOKUP, Pivot Tables</li>
+          <li>SQL</li>
+          <li>Alteryx & Tableau</li>
+          <li>Financial Modeling & Forecasting</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Technology & AI</h4>
+        <ul class="skill-list">
+          <li>Claude AI / LLM Implementation</li>
+          <li>AWS Cloud Services</li>
+          <li>Kiro (AI Dev Tool)</li>
+          <li>GitHub / GitLab</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Finance & Compliance</h4>
+        <ul class="skill-list">
+          <li>GAAP & Financial Reporting</li>
+          <li>Real Estate Finance & Lending</li>
+          <li>HNW Client Management</li>
+          <li>Cross-functional Leadership</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Colton Riley</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="work.html">Work</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://linkedin.com/in/coltonriley" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="footer-copy">© 2025 Colton Riley · Stamford, CT · cr@coltonriley.com</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('burger').addEventListener('click', () => {
+    document.getElementById('nav-links').classList.toggle('open');
+  });
+</script>
+</body>
+</html>

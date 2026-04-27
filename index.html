@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colton Riley — Data & Analytics Leader</title>
+  <meta name="description" content="Colton Riley, MBA — Senior Data & Analytics Leader, Sales Compensation Strategy, AI Implementation. Based in Stamford, CT." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Homepage-specific */
+    .home-about {
+      background: white;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-photo-block {
+      position: relative;
+    }
+    .about-photo-placeholder {
+      aspect-ratio: 3/4;
+      background: linear-gradient(145deg, var(--mint-lt), var(--aqua-lt));
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-align: center;
+      gap: 0.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .about-photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .about-photo-tag {
+      position: absolute;
+      bottom: -12px;
+      right: -12px;
+      background: var(--pink);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 14px rgba(232,93,138,0.35);
+    }
+    .about-text p {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.8;
+    }
+    .competency-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .chip {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      background: var(--mint-lt);
+      color: var(--palm);
+      border: 1px solid rgba(61,170,110,0.25);
+    }
+
+    /* Work preview */
+    .work-section { background: var(--cream); }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .work-card { background: white; }
+    .work-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .company-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .work-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--palm);
+    }
+    .work-card .company {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .work-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* Strava section */
+    .strava-section {
+      background: linear-gradient(135deg, var(--aqua-lt) 0%, var(--mint-lt) 100%);
+    }
+    .strava-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .strava-embed-wrap {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .strava-info h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--palm);
+      margin-bottom: 0.75rem;
+    }
+    .strava-info p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+    .strava-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #fc4c02;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.55rem 1.2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.18s, box-shadow 0.18s;
+      box-shadow: 0 4px 14px rgba(252,76,2,0.3);
+    }
+    .strava-badge:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(252,76,2,0.35); }
+
+    /* Contact strip */
+    .contact-strip {
+      background: var(--pink-lt);
+      padding: 4rem 2.5rem;
+      text-align: center;
+    }
+    .contact-strip .section-title { margin-bottom: 0.5rem; }
+    .contact-strip p { color: var(--muted); margin-bottom: 2rem; font-size: 1rem; }
+    .contact-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .strava-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────── -->
+<nav>
+  <a href="index.html" class="nav-logo">Colton Riley</a>
+  <button class="nav-burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li class="nav-private"><a href="private.html">🔒 Private</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-accent hero-accent-1"></div>
+  <div class="hero-accent hero-accent-2"></div>
+  <div class="hero-accent hero-accent-3"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Welcome</div>
+    <h1 class="hero-name">Colton<br><em>Riley</em></h1>
+    <p class="hero-title">Senior Data & Analytics Leader &nbsp;·&nbsp; MBA</p>
+    <p class="hero-location">Stamford, CT</p>
+    <div class="hero-ctas">
+      <a href="about.html" class="btn btn-primary">About Me</a>
+      <a href="work.html" class="btn btn-outline">My Work</a>
+      <a href="contact.html" class="btn btn-pink">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── STAT STRIP ────────────────────────────────────────────── -->
+<div class="stat-strip">
+  <div class="stat-grid">
+    <div>
+      <div class="stat-value">$1.2B</div>
+      <div class="stat-label">Variable Compensation Overseen</div>
+    </div>
+    <div>
+      <div class="stat-value">40K</div>
+      <div class="stat-label">Payees Managed</div>
+    </div>
+    <div>
+      <div class="stat-value">5+</div>
+      <div class="stat-label">Years Enterprise Analytics</div>
+    </div>
+    <div>
+      <div class="stat-value">$38M</div>
+      <div class="stat-label">AUM Attracted at Merrill Lynch</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT PREVIEW ─────────────────────────────────────────── -->
+<section class="home-about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-photo-block">
+        <div class="about-photo-placeholder">
+          <!-- Replace src below with your photo: <img src="photo.jpg" alt="Colton Riley" /> -->
+          <span style="font-size:3rem;">🌿</span>
+          <span style="color:var(--muted);font-size:0.78rem;">Add your photo here<br><code style="font-size:0.68rem;opacity:0.6;">photo.jpg</code></span>
+        </div>
+        <div class="about-photo-tag">MBA · Stamford, CT</div>
+      </div>
+      <div class="about-text">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">Data Leader.<br><em>Strategic Thinker.</em></h2>
+        <div class="divider"></div>
+        <p>I'm a Senior Data & Analytics leader with 5+ years driving enterprise-scale compensation intelligence at Charter Communications, where I oversee the design, implementation, and governance of $1.2B in annual variable compensation across 40,000 payees.</p>
+        <p>As a founding member of Charter's National Incentives team, I helped transform a fragmented regional program into a unified, data-driven operation. I recently led the team's adoption of Claude AI, AWS, and Kiro to streamline analyst workflows and automate reporting.</p>
+        <div class="competency-chips">
+          <span class="chip">Sales Compensation</span>
+          <span class="chip">Financial Modeling</span>
+          <span class="chip">AI / LLM Implementation</span>
+          <span class="chip">Alteryx & Tableau</span>
+          <span class="chip">Excel Advanced</span>
+          <span class="chip">SQL</span>
+          <span class="chip">Executive Presentations</span>
+        </div>
+        <br>
+        <a href="about.html" class="btn btn-primary" style="margin-top:0.5rem;">Full Bio →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WORK PREVIEW ──────────────────────────────────────────── -->
+<section class="work-section">
+  <div class="section-inner">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">A Career Built on<br><em>Analytical Rigor.</em></h2>
+    <div class="divider"></div>
+    <div class="work-grid">
+      <div class="card work-card">
+        <div class="card-accent-bar" style="background: linear-gradient(90deg, var(--mint), var(--aqua));"></div>
+        <div class="work-card-header">
+          <div class="company-dot" style="background:var(--mint);"></div>
+          <div>
+            <h3>Lead Data & Reporting Analyst</h3>
+            <div class="company">Charter Communications · 2022–Present</div>
+          </div>
+        </div>
+        <p>Founding member of the National Incentives team. Nationalized a $50MM+ program into a $1.2B enterprise operation supporting 40,000 payees. Led AI implementation with Claude, AWS, and Kiro.</p>
+      </div>
+      <div class="card work-card">
+        <div class="card-accent-bar" style="background: linear-gradient(90deg, var(--gold), var(--mango));"></div>
+        <div class="work-card-header">
+          <div class="company-dot" style="background:var(--gold);"></div>
+          <div>
+            <h3>Financial Advisor</h3>
+            <div class="company">Merrill Lynch / Oppenheimer · 2017–2020</div>
+          </div>
+        </div>
+        <p>Built a $38MM AUM book serving High Net Worth clients. Migrated full book to Oppenheimer and collaborated on a $200MM Series B raise. CFP certified during tenure.</p>
+      </div>
+      <div class="card work-card">
+        <div class="card-accent-bar" style="background: linear-gradient(90deg, var(--pink), var(--mango));"></div>
+        <div class="work-card-header">
+          <div class="company-dot" style="background:var(--pink);"></div>
+          <div>
+            <h3>Director of Finance</h3>
+            <div class="company">Tieback Realty Finance · 2013–2016</div>
+          </div>
+        </div>
+        <p>Deployed $250MM+ for a publicly traded REIT. Built a sophisticated Excel-based loan tracking dashboard managing 150 active loans simultaneously with P&L reporting.</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:2.5rem;">
+      <a href="work.html" class="btn btn-primary">Full Work History →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── STRAVA SECTION ─────────────────────────────────────────── -->
+<section class="strava-section">
+  <div class="section-inner">
+    <div class="strava-inner">
+      <div class="strava-embed-wrap">
+        <!-- 
+          STRAVA EMBED INSTRUCTIONS:
+          1. Go to strava.com and open a recent activity
+          2. Click the "..." menu → "Share Activity" → "Embed"
+          3. Copy the embed code and paste it below, replacing this placeholder div
+          
+          Example of what the embed code looks like:
+          <div class="strava-embed-placeholder" data-embed-type="activity" data-embed-id="YOUR_ACTIVITY_ID" data-style="standard"></div>
+          <script src="https://strava-embeds.com/embed.js"></script>
+        -->
+        <div style="background:white; padding:2rem; border-radius:var(--radius-lg); text-align:center; min-height:200px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; color:var(--muted);">
+          <div style="font-size:2.5rem;">🏃</div>
+          <div style="font-size:0.85rem; line-height:1.7;">
+            <strong style="color:var(--palm); display:block; margin-bottom:0.25rem;">Add your Strava activity here</strong>
+            Open any activity on Strava → Share → Embed<br>
+            and paste the embed code in <code style="font-size:0.75rem; background:var(--mint-lt); padding:1px 5px; border-radius:3px;">index.html</code>
+          </div>
+        </div>
+      </div>
+      <div class="strava-info">
+        <div class="section-label">Outside the Office</div>
+        <h3>Staying Active,<br>Staying Sharp.</h3>
+        <p>When I'm not building dashboards or designing compensation models, you'll find me on the roads around Stamford. I track my runs and rides on Strava — follow along if you want to hold me accountable.</p>
+        <a href="https://www.strava.com" target="_blank" class="strava-badge" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+          Follow on Strava
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT STRIP ──────────────────────────────────────────── -->
+<div class="contact-strip">
+  <div class="section-inner">
+    <div class="section-label">Let's Connect</div>
+    <h2 class="section-title">Say <em>Hello.</em></h2>
+    <p>Whether you're exploring a collaboration, a role, or just want to connect — my inbox is open.</p>
+    <div class="contact-links">
+      <a href="mailto:cr@coltonriley.com" class="btn btn-primary">cr@coltonriley.com</a>
+      <a href="https://linkedin.com/in/coltonriley" target="_blank" class="btn btn-outline" rel="noopener">LinkedIn →</a>
+      <a href="contact.html" class="btn btn-pink">Contact Page</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Colton Riley</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="work.html">Work</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://linkedin.com/in/coltonriley" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="footer-copy">© 2025 Colton Riley · Stamford, CT · cr@coltonriley.com</div>
+  </div>
+</footer>
+
+<script>
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('nav-links');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  // Set active nav link
+  const current = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    const href = a.getAttribute('href');
+    if (href === current || (current === '' && href === 'index.html')) {
+      a.classList.add('active');
+    } else {
+      a.classList.remove('active');
+    }
+  });
+</script>
+</body>
+</html>

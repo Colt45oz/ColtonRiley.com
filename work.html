@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work — Colton Riley</title>
+  <meta name="description" content="Colton Riley's professional experience — data analytics, compensation strategy, financial advisory, real estate finance." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--mint) 0%, var(--pink) 50%, var(--gold) 100%);
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -2.9rem;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px var(--mint);
+      background: var(--mint);
+    }
+    .timeline-item:nth-child(2) .timeline-dot { background: var(--aqua); box-shadow: 0 0 0 2px var(--aqua); }
+    .timeline-item:nth-child(3) .timeline-dot { background: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+    .timeline-item:nth-child(4) .timeline-dot { background: var(--pink); box-shadow: 0 0 0 2px var(--pink); }
+    .timeline-item:nth-child(5) .timeline-dot { background: var(--mango); box-shadow: 0 0 0 2px var(--mango); }
+
+    .timeline-header {
+      margin-bottom: 0.75rem;
+    }
+    .timeline-role {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--palm);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timeline-company {
+      font-weight: 500;
+      color: var(--mint);
+    }
+    .timeline-date {
+      display: inline-block;
+      background: var(--mint-lt);
+      color: var(--palm);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.65rem;
+      border-radius: 50px;
+    }
+    .timeline-location {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .timeline-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .timeline-bullets li {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      padding-left: 1.25rem;
+      position: relative;
+    }
+    .timeline-bullets li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pink);
+      flex-shrink: 0;
+    }
+    .timeline-highlight {
+      font-weight: 500;
+      color: var(--palm);
+    }
+
+    /* Key Accomplishments */
+    .accomplishments-section { background: var(--palm); }
+    .accomplishments-section .section-label { color: var(--gold); }
+    .accomplishments-section .section-title { color: white; }
+    .accomplishments-section .section-title em { color: var(--gold); }
+    .accomplishments-section .divider { background: linear-gradient(90deg, var(--gold), var(--mango)); }
+
+    .accom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .accom-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      transition: background 0.2s;
+    }
+    .accom-card:hover { background: rgba(255,255,255,0.11); }
+    .accom-number {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .accom-text {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+    }
+
+    /* Download CTA */
+    .resume-cta {
+      background: linear-gradient(135deg, var(--mint-lt), var(--aqua-lt));
+      padding: 4rem 2.5rem;
+      text-align: center;
+    }
+    .resume-cta p { color: var(--muted); margin-bottom: 1.5rem; max-width: 500px; margin-left:auto; margin-right:auto; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Colton Riley</a>
+  <button class="nav-burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html" class="active">Work</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li class="nav-private"><a href="private.html">🔒 Private</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Professional Experience</div>
+    <h1 class="page-hero-title">My <em>Work.</em></h1>
+  </div>
+</div>
+
+<!-- ── KEY ACCOMPLISHMENTS ─────────────────────────────────────── -->
+<section class="accomplishments-section">
+  <div class="section-inner">
+    <div class="section-label">Impact</div>
+    <h2 class="section-title">By the <em>Numbers.</em></h2>
+    <div class="divider"></div>
+    <div class="accom-grid">
+      <div class="accom-card">
+        <div class="accom-number">$1.2B</div>
+        <div class="accom-text">Annual variable compensation overseen across 40,000 payees at Charter Communications.</div>
+      </div>
+      <div class="accom-card">
+        <div class="accom-number">$50M+</div>
+        <div class="accom-text">Fragmented regional incentive program nationalized into a unified enterprise operation.</div>
+      </div>
+      <div class="accom-card">
+        <div class="accom-number">$38M</div>
+        <div class="accom-text">AUM attracted in under three years at Merrill Lynch serving HNW clients.</div>
+      </div>
+      <div class="accom-card">
+        <div class="accom-number">$250M+</div>
+        <div class="accom-text">Deployed over three years for publicly traded REIT, financing residential real estate nationwide.</div>
+      </div>
+      <div class="accom-card">
+        <div class="accom-number">500%</div>
+        <div class="accom-text">Revenue growth of a sales incentive program over three years to $3MM+ annually through redesigned compensation structures.</div>
+      </div>
+      <div class="accom-card">
+        <div class="accom-number">$200M</div>
+        <div class="accom-text">Series B capital raise collaborated on at Oppenheimer for a plant-based food company.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CAREER TIMELINE ────────────────────────────────────────── -->
+<section style="background:white;">
+  <div class="section-inner">
+    <div class="section-label">Career History</div>
+    <h2 class="section-title">Professional <em>Timeline.</em></h2>
+    <div class="divider"></div>
+
+    <div class="timeline">
+
+      <!-- Charter Communications -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">Lead Data & Reporting Analyst — National Incentives</div>
+          <div class="timeline-meta">
+            <span class="timeline-company">Charter Communications</span>
+            <span class="timeline-date">Feb 2022 – Present</span>
+            <span class="timeline-location">📍 Stamford, CT</span>
+          </div>
+        </div>
+        <ul class="timeline-bullets">
+          <li>Founding member of the National Incentives team; helped nationalize a <span class="timeline-highlight">fragmented $50MM+ regional incentive program</span> into a unified enterprise operation supporting <span class="timeline-highlight">$1.2B in annual variable compensation</span> across 40,000 payees.</li>
+          <li>Design, model, and implement sales compensation plans for all Small Business sales channels — including Inbound Sales, Retention, and Outbound Telemarketing — working directly with channel Directors and VPs.</li>
+          <li>Manage a <span class="timeline-highlight">$30MM+ annual incentive budget</span> for assigned channels; produce and distribute monthly incentive payments to 5,000+ individual payees.</li>
+          <li>Led the team's <span class="timeline-highlight">AI implementation initiative using Claude, AWS, and Kiro</span> — streamlining analyst workflows, automating report generation, and reducing manual processing overhead.</li>
+          <li>Build and maintain forecasting models, executive dashboards, and ad hoc analytics in Alteryx and Excel for VP and SVP leadership.</li>
+          <li>Mentor and develop junior analysts; serve as technical lead and subject matter expert for incentive design and data reporting.</li>
+        </ul>
+        <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:0.4rem;">
+          <span class="chip">Alteryx</span>
+          <span class="chip">Excel Advanced</span>
+          <span class="chip">Claude AI</span>
+          <span class="chip">AWS</span>
+          <span class="chip">Kiro</span>
+          <span class="chip">Compensation Design</span>
+        </div>
+      </div>
+
+      <!-- Oppenheimer -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">Financial Advisor</div>
+          <div class="timeline-meta">
+            <span class="timeline-company" style="color:var(--aqua);">Oppenheimer & Co.</span>
+            <span class="timeline-date">2019 – 2020</span>
+            <span class="timeline-location">📍 Stamford, CT</span>
+          </div>
+        </div>
+        <ul class="timeline-bullets">
+          <li>Migrated <span class="timeline-highlight">$38MM in client assets</span> from Merrill Lynch to Oppenheimer, enhancing investment strategies across brokerage, retirement, and trading accounts for HNW clients.</li>
+          <li>Collaborated with the investment banking team on a <span class="timeline-highlight">$200MM Series B raise</span> for a plant-based food company.</li>
+          <li>Served HNW clients, corporate 401(k) plan sponsors, and investment banking opportunities in partnership with specialist advisors.</li>
+        </ul>
+        <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:0.4rem;">
+          <span class="chip" style="background:var(--aqua-lt); color:#1a5c69; border-color:rgba(91,200,216,0.25);">HNW Client Management</span>
+          <span class="chip" style="background:var(--aqua-lt); color:#1a5c69; border-color:rgba(91,200,216,0.25);">Investment Banking</span>
+          <span class="chip" style="background:var(--aqua-lt); color:#1a5c69; border-color:rgba(91,200,216,0.25);">Series 7 / 66</span>
+        </div>
+      </div>
+
+      <!-- Merrill Lynch -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">Financial Advisor</div>
+          <div class="timeline-meta">
+            <span class="timeline-company" style="color:var(--gold);">Bank of America / Merrill Lynch</span>
+            <span class="timeline-date">2017 – 2019</span>
+            <span class="timeline-location">📍 Stamford, CT</span>
+          </div>
+        </div>
+        <ul class="timeline-bullets">
+          <li>Built a <span class="timeline-highlight">$38MM AUM book</span> within three years, serving High Net Worth clients with comprehensive investment, retirement, and financial planning solutions.</li>
+          <li>Used CRM analytics to design targeted sales and marketing campaigns; continuously refined acquisition funnel based on performance data.</li>
+          <li>Originated first-position mortgages, refinances, and HELOCs aligned to client financial goals.</li>
+          <li>Earned <span class="timeline-highlight">CFP certificate</span> from Bryant University during tenure.</li>
+        </ul>
+        <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:0.4rem;">
+          <span class="chip" style="background:var(--gold-lt); color:#5a3e00; border-color:rgba(249,198,74,0.3);">CFP Certification</span>
+          <span class="chip" style="background:var(--gold-lt); color:#5a3e00; border-color:rgba(249,198,74,0.3);">CRM Analytics</span>
+          <span class="chip" style="background:var(--gold-lt); color:#5a3e00; border-color:rgba(249,198,74,0.3);">Financial Planning</span>
+        </div>
+      </div>
+
+      <!-- Tieback -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">Director of Finance & Commercial Loan Origination</div>
+          <div class="timeline-meta">
+            <span class="timeline-company" style="color:var(--pink);">Tieback Realty Finance</span>
+            <span class="timeline-date">2013 – 2016</span>
+            <span class="timeline-location">📍 Newport Beach, CA</span>
+          </div>
+        </div>
+        <ul class="timeline-bullets">
+          <li>Deployed <span class="timeline-highlight">$250MM+</span> over three years for publicly traded REIT (NYSE: ARPI), financing 1-4 unit residential properties for high-volume fix-and-flip operators nationwide.</li>
+          <li>Built a sophisticated <span class="timeline-highlight">Excel-based loan tracking dashboard</span> managing up to 150 active loans simultaneously (200+ line items each), tracking renovation costs from acquisition to disposition.</li>
+          <li>Originated $25MM in first and second position hard money commercial loans; established and managed credit facilities with mortgage funds, family offices, and PE groups.</li>
+          <li>Directed development of a crowdfunding platform to syndicate company deal flow.</li>
+        </ul>
+        <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:0.4rem;">
+          <span class="chip" style="background:var(--pink-lt); color:#6b1a35; border-color:rgba(232,93,138,0.2);">Real Estate Finance</span>
+          <span class="chip" style="background:var(--pink-lt); color:#6b1a35; border-color:rgba(232,93,138,0.2);">Excel Modeling</span>
+          <span class="chip" style="background:var(--pink-lt); color:#6b1a35; border-color:rgba(232,93,138,0.2);">Loan Origination</span>
+        </div>
+      </div>
+
+      <!-- WRSG -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-header">
+          <div class="timeline-role">Financial Analyst & Business Development Consultant</div>
+          <div class="timeline-meta">
+            <span class="timeline-company" style="color:var(--mango);">World Recycling Surfacing Group</span>
+            <span class="timeline-date">2011 – 2013</span>
+            <span class="timeline-location">📍 Irvine, CA</span>
+          </div>
+        </div>
+        <ul class="timeline-bullets">
+          <li>Designed a third-party installer sales incentive program that grew product segment revenue <span class="timeline-highlight">500% over three years</span> to $3MM+ annually.</li>
+          <li>Corrected five years of improper cost accounting, uncovering <span class="timeline-highlight">$450K+ in shadow inventory</span> and amending company valuation.</li>
+          <li>Established $1MM+ in GE Capital credit accounts for clients; increased average transaction size 10%, repeat business 25%, and reduced A/R 20% within 90 days.</li>
+          <li>Supervised GAAP audit and recapitalization prep that secured <span class="timeline-highlight">$2MM in new equity investment</span>.</li>
+        </ul>
+      </div>
+
+    </div><!-- end timeline -->
+  </div>
+</section>
+
+<!-- ── DOWNLOAD CTA ────────────────────────────────────────────── -->
+<div class="resume-cta">
+  <div class="section-inner">
+    <div class="section-label">Resume</div>
+    <h2 class="section-title" style="margin-bottom:1rem;">Want the Full <em>Picture?</em></h2>
+    <p>Download my full resume for a complete view of my experience, education, and credentials.</p>
+    <a href="Colton_Riley_Resume_2025.pdf" class="btn btn-primary" download>Download Resume (PDF) ↓</a>
+    &nbsp;&nbsp;
+    <a href="https://linkedin.com/in/coltonriley" class="btn btn-outline" target="_blank" rel="noopener">View LinkedIn →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Colton Riley</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="work.html">Work</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://linkedin.com/in/coltonriley" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="footer-copy">© 2025 Colton Riley · Stamford, CT · cr@coltonriley.com</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('burger').addEventListener('click', () => {
+    document.getElementById('nav-links').classList.toggle('open');
+  });
+</script>
+</body>
+</html>
