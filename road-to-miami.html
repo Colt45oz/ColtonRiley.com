@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Road to Miami — Annual Mileage Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#ECE3CC;
+    --cream:#F8F2E2;
+    --ink:#1E2A36;
+    --ink-soft:#5A6573;
+    --done:#C0451F;
+    --done-deep:#9A3415;
+    --todo:#A99B78;
+    --gold:#C28B26;
+    --line:#C9BC98;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--ink);}
+  body{
+    font-family:'Archivo',sans-serif;color:var(--ink);
+    background:radial-gradient(900px 600px at 80% -5%, #2c3a48 0%, transparent 60%), var(--ink);
+    padding:28px 18px 60px;min-height:100vh;
+  }
+  .frame{
+    max-width:1200px;margin:0 auto;background:var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 38px, rgba(140,124,86,.07) 38px 39px),
+      repeating-linear-gradient(90deg, transparent 0 38px, rgba(140,124,86,.07) 38px 39px);
+    border:1px solid #0c1219;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,.7), inset 0 0 0 7px var(--paper), inset 0 0 0 8px var(--line);
+    border-radius:4px;overflow:hidden;
+  }
+  /* ---------- header ---------- */
+  header{
+    padding:34px 40px 26px;border-bottom:2px solid var(--line);
+    background:linear-gradient(180deg, rgba(248,242,226,.7), transparent);
+    display:flex;align-items:flex-start;gap:30px;
+  }
+  .head-text{flex:1;min-width:0;}
+  .kicker{
+    display:flex;align-items:center;gap:14px;
+    font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;margin-bottom:11px;
+  }
+  .kicker .rule{height:1px;background:var(--line);flex:1;}
+  h1{
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(36px,5.4vw,62px);line-height:.96;
+    letter-spacing:-.015em;color:var(--ink);
+  }
+  h1 .em{color:var(--done);font-style:italic;}
+  .sub{margin-top:13px;max-width:580px;color:var(--ink-soft);font-size:14px;line-height:1.6;}
+  .sub b{color:var(--ink);font-weight:600;}
+  .head-mark{flex-shrink:0;text-align:center;width:96px;}
+  .shield{width:84px;height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.22));}
+  .shield-cap{
+    margin-top:8px;font-family:'Archivo';font-weight:700;font-size:11px;
+    letter-spacing:.06em;color:var(--ink);line-height:1.35;
+  }
+  .shield-cap span{display:block;font-weight:500;font-size:9.5px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
+  /* ---------- layout ---------- */
+  .layout{display:flex;}
+  .panel{
+    width:40%;min-width:328px;padding:30px 34px 34px;
+    border-right:2px solid var(--line);
+    display:flex;flex-direction:column;gap:24px;
+  }
+  .map-wrap{
+    flex:1;padding:20px 16px 18px 18px;display:flex;justify-content:center;
+    background:radial-gradient(440px 540px at 62% 34%, rgba(248,242,226,.55), transparent 70%);
+  }
+  /* ---------- control ---------- */
+  .control label.tag{
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:700;display:block;margin-bottom:8px;
+  }
+  .input-row{display:flex;align-items:baseline;gap:10px;
+    border-bottom:2.5px solid var(--ink);padding-bottom:6px;}
+  #miles{
+    font-family:'Fraunces',serif;font-weight:700;font-size:46px;width:100%;
+    border:none;background:transparent;color:var(--ink);outline:none;-moz-appearance:textfield;
+  }
+  #miles::-webkit-outer-spin-button,#miles::-webkit-inner-spin-button{-webkit-appearance:none;}
+  .unit{font-family:'Archivo';font-weight:600;font-size:14px;color:var(--ink-soft);
+    letter-spacing:.04em;white-space:nowrap;}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:4px;margin-top:18px;
+    background:linear-gradient(90deg,var(--done) var(--fill,37%),var(--todo) var(--fill,37%));
+    border-radius:3px;cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:var(--cream);border:3px solid var(--ink);
+    box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:grab;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px;height:18px;border-radius:50%;background:var(--cream);
+    border:3px solid var(--ink);cursor:grab;
+  }
+  .presets{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap;}
+  .chip{
+    font-family:'Archivo';font-size:11px;font-weight:600;letter-spacing:.02em;
+    padding:6px 11px;border:1.5px solid var(--line);background:var(--cream);
+    border-radius:20px;cursor:pointer;color:var(--ink-soft);transition:.15s;
+  }
+  .chip:hover{border-color:var(--ink);color:var(--ink);}
+  /* ---------- readout ---------- */
+  .readout{border-top:2px solid var(--line);padding-top:22px;}
+  .qualifier{
+    font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--done);font-weight:700;margin-bottom:4px;
+  }
+  .city{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(29px,4.4vw,44px);line-height:1.02;letter-spacing:-.01em;
+  }
+  .state{
+    font-family:'Archivo';font-size:13px;font-weight:600;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);margin-top:6px;
+  }
+  .context{
+    margin-top:14px;font-size:13px;line-height:1.6;color:var(--ink-soft);
+    border-left:3px solid var(--done);padding-left:12px;
+  }
+  .context b{color:var(--ink);font-weight:700;}
+  .stats{
+    display:grid;grid-template-columns:1fr 1fr;gap:1px;
+    margin-top:20px;background:var(--line);border:1px solid var(--line);
+  }
+  .stat{background:var(--cream);padding:13px 14px;}
+  .stat .v{font-family:'Fraunces',serif;font-weight:700;font-size:25px;line-height:1;}
+  .stat .k{font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;margin-top:6px;}
+  /* ---------- upcoming ---------- */
+  .upcoming{border-top:2px solid var(--line);padding-top:20px;}
+  .upcoming h3{
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:700;margin-bottom:12px;
+  }
+  .stop{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:9px 0;border-bottom:1px dashed var(--line);
+  }
+  .stop:last-child{border-bottom:none;}
+  .stop .nm{font-weight:600;font-size:14px;}
+  .stop .nm span{color:var(--ink-soft);font-weight:500;font-size:12px;}
+  .stop .di{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--done);}
+  .arrived-note{
+    background:var(--ink);color:var(--cream);padding:14px 16px;border-radius:3px;
+    font-size:13px;line-height:1.5;
+  }
+  .arrived-note b{color:var(--gold);font-family:'Fraunces';}
+  /* ---------- svg map ---------- */
+  svg.map{width:100%;height:auto;max-height:80vh;}
+  .route-base{fill:none;stroke:var(--todo);stroke-width:5;stroke-linecap:round;
+    stroke-dasharray:1 9;opacity:.85;}
+  .route-done{fill:none;stroke:var(--done);stroke-width:5.5;stroke-linecap:round;
+    transition:stroke-dashoffset .45s cubic-bezier(.4,0,.2,1);
+    filter:drop-shadow(0 1px 2px rgba(154,52,21,.4));}
+  .citydot{fill:var(--cream);stroke:var(--ink);stroke-width:1.5;}
+  .citydot.passed{fill:var(--done);stroke:var(--done-deep);}
+  .citydot.near{fill:var(--gold);stroke:var(--ink);stroke-width:2;}
+  .citylabel{font-family:'Archivo';font-size:11px;font-weight:600;fill:var(--ink);}
+  .citylabel.passed{fill:var(--done-deep);}
+  .endlabel{font-family:'Fraunces';font-weight:700;font-size:14px;fill:var(--ink);}
+  .statelabel{font-family:'Archivo';font-size:12.5px;font-weight:700;
+    fill:var(--ink-soft);letter-spacing:.14em;opacity:.5;}
+  .milemark{font-family:'Archivo';font-size:9px;font-weight:700;fill:var(--ink-soft);}
+  .miletick{stroke:var(--ink-soft);stroke-width:1.4;}
+  #leader{stroke:var(--ink);stroke-width:1.3;stroke-dasharray:2 4;opacity:.45;}
+  #marker{transition:transform .42s cubic-bezier(.4,0,.2,1);}
+  .pulse{fill:var(--gold);opacity:.35;animation:pulse 2.1s ease-out infinite;}
+  @keyframes pulse{0%{r:7;opacity:.5;}100%{r:24;opacity:0;}}
+  .you-tag{font-family:'Archivo';font-weight:700;font-size:10px;
+    letter-spacing:.13em;fill:var(--cream);}
+  .you-tag-bg{fill:var(--ink);}
+  /* fun-fact card (inside foreignObject) */
+  .fact-card{
+    font-family:'Archivo',sans-serif;background:var(--cream);
+    border:1.6px solid var(--ink);box-shadow:3px 3px 0 rgba(30,42,54,.18);
+    padding:11px 13px 13px;border-radius:2px;height:100%;
+  }
+  .fact-eyebrow{
+    font-size:8.5px;letter-spacing:.17em;text-transform:uppercase;
+    color:var(--done);font-weight:700;display:flex;justify-content:space-between;
+  }
+  .fact-eyebrow .pin{color:var(--ink-soft);}
+  .fact-city{
+    font-family:'Fraunces',serif;font-weight:700;font-size:18px;
+    line-height:1.04;margin:3px 0 7px;color:var(--ink);
+  }
+  .fact-text{font-size:11px;line-height:1.5;color:var(--ink-soft);
+    animation:fadeIn .4s ease;}
+  .fact-text b{color:var(--ink);font-weight:700;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:none;}}
+  /* ---------- footer ---------- */
+  footer{
+    padding:20px 40px;border-top:2px solid var(--line);
+    font-size:12px;color:var(--ink-soft);line-height:1.6;
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  footer .compass{font-family:'Fraunces';font-style:italic;color:var(--ink);}
+  /* ---------- entrance ---------- */
+  .reveal{opacity:0;transform:translateY(14px);
+    animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards;}
+  .d1{animation-delay:.05s;}.d2{animation-delay:.15s;}
+  .d3{animation-delay:.25s;}.d4{animation-delay:.35s;}
+  @keyframes rise{to{opacity:1;transform:translateY(0);}}
+  @media(max-width:860px){
+    .layout{flex-direction:column;}
+    .panel{width:100%;border-right:none;border-bottom:2px solid var(--line);padding:26px 24px;}
+    header{padding:26px 24px;gap:18px;}
+    .shield{width:60px;}.head-mark{width:72px;}
+    footer{padding:18px 24px;}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <header>
+    <div class="head-text">
+      <div class="kicker reveal d1"><span>Field Guide · The Atlantic Highway</span><span class="rule"></span></div>
+      <h1 class="reveal d1">The Road to <span class="em">Miami</span></h1>
+      <p class="sub reveal d2">Every mile you log this year carries you south down <b>U.S. Route&nbsp;1</b> —
+        the historic Atlantic highway whose northern stretch is the old Boston Post Road. Enter your
+        year-to-date distance to see where on the coast you'd be standing.</p>
+    </div>
+    <div class="head-mark reveal d1">
+      <svg class="shield" viewBox="0 0 110 124" aria-hidden="true">
+        <path d="M55 5 C37 5 19 8 12 11 C11 35 13 60 19 81 C28 105 41 116 55 121
+                 C69 116 82 105 91 81 C97 60 99 35 98 11 C91 8 73 5 55 5 Z"
+              fill="#F8F2E2" stroke="#1E2A36" stroke-width="3.5"/>
+        <path d="M55 13 C40 13 25 16 19 18 C18 38 20 58 25 76 C33 96 44 106 55 110
+                 C66 106 77 96 85 76 C90 58 92 38 91 18 C85 16 70 13 55 13 Z"
+              fill="none" stroke="#1E2A36" stroke-width="1.2"/>
+        <text x="55" y="38" text-anchor="middle" fill="#1E2A36"
+              font-family="Archivo" font-weight="700" font-size="14" letter-spacing="2">U.S.</text>
+        <text x="55" y="92" text-anchor="middle" fill="#1E2A36"
+              font-family="Fraunces" font-weight="900" font-size="56">1</text>
+      </svg>
+      <div class="shield-cap">1,284 MILES<span>New York → Miami</span></div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="panel">
+      <div class="control reveal d2">
+        <label class="tag" for="miles">Your mileage this year</label>
+        <div class="input-row">
+          <input id="miles" type="number" min="0" max="4000" step="1" />
+          <span class="unit">miles logged</span>
+        </div>
+        <input id="slider" type="range" min="0" max="1284" step="1" />
+        <div class="presets" id="presets">
+          <button class="chip" data-v="0" id="chipPace">on pace</button>
+          <button class="chip" data-v="642">642 · halfway</button>
+          <button class="chip" data-v="1284">1,284 · goal</button>
+        </div>
+      </div>
+
+      <div class="readout reveal d3">
+        <div class="qualifier" id="qualifier">Approaching</div>
+        <div class="city" id="cityName">Rocky Mount</div>
+        <div class="state" id="cityState">North Carolina</div>
+        <div class="context" id="context"></div>
+        <div class="stats">
+          <div class="stat"><div class="v" id="sMile">Mile 471</div><div class="k">of 1,284 total</div></div>
+          <div class="stat"><div class="v" id="sPct">36.7%</div><div class="k">of the route done</div></div>
+          <div class="stat"><div class="v" id="sLeft">813 mi</div><div class="k" id="sLeftK">still to Miami</div></div>
+          <div class="stat"><div class="v" id="sNext">7 mi</div><div class="k">to next stop</div></div>
+        </div>
+      </div>
+
+      <div class="upcoming reveal d4">
+        <h3>Next stops down the line</h3>
+        <div id="stops"></div>
+      </div>
+    </aside>
+
+    <main class="map-wrap reveal d3">
+      <svg class="map" id="svg" viewBox="0 0 520 830" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="route"
+            d="M385,60
+               C370,100 350,140 340,175
+               C328,212 300,240 290,270
+               C281,300 300,335 312,365
+               C322,395 325,422 330,450
+               C334,482 339,514 342,545
+               C345,580 342,612 335,640
+               C345,665 356,682 368,695
+               C378,706 389,718 398,728
+               C408,745 416,758 420,770
+               C412,783 400,791 388,796" />
+        </defs>
+
+        <!-- faint coastline + ocean -->
+        <path d="M455,55 C470,130 462,210 478,300 C492,370 470,440 452,520
+                 C470,600 462,680 440,742 C420,792 388,812 360,808"
+              fill="none" stroke="var(--line)" stroke-width="1.5"
+              stroke-dasharray="2 6" opacity=".65"/>
+        <text x="470" y="430" class="statelabel" transform="rotate(86 470 430)"
+              style="font-size:10px;opacity:.4;">ATLANTIC OCEAN</text>
+
+        <!-- compass rose, fills upper-right dead space -->
+        <g transform="translate(472,104)" opacity=".55">
+          <circle r="29" fill="none" stroke="var(--ink-soft)" stroke-width="1"/>
+          <circle r="20.5" fill="none" stroke="var(--ink-soft)" stroke-width=".6"/>
+          <path d="M0,-29 L4.5,-4 L0,0 L-4.5,-4 Z" fill="var(--done)"/>
+          <path d="M0,29 L4.5,4 L0,0 L-4.5,4 Z" fill="var(--ink)"/>
+          <path d="M29,0 L4,4.5 L0,0 L4,-4.5 Z" fill="var(--ink)"/>
+          <path d="M-29,0 L-4,4.5 L0,0 L-4,-4.5 Z" fill="var(--ink)"/>
+          <path d="M14,-14 L4.6,-2 L0,0 L2,-4.6 Z" fill="var(--ink-soft)"/>
+          <path d="M-14,14 L-4.6,2 L0,0 L-2,4.6 Z" fill="var(--ink-soft)"/>
+          <path d="M14,14 L2,4.6 L0,0 L4.6,2 Z" fill="var(--ink-soft)"/>
+          <path d="M-14,-14 L-2,-4.6 L0,0 L-4.6,-2 Z" fill="var(--ink-soft)"/>
+          <text y="-32" text-anchor="middle" font-family="Fraunces" font-weight="700"
+                font-size="12" fill="var(--ink)">N</text>
+        </g>
+
+        <use href="#route" class="route-base"/>
+        <use href="#route" class="route-done" id="routeDone"/>
+
+        <g id="states"></g>
+        <g id="miles-g"></g>
+        <g id="dots"></g>
+        <g id="labels"></g>
+
+        <line id="leader" x1="0" y1="0" x2="0" y2="0"/>
+
+        <foreignObject id="factFO" x="8" y="300" width="236" height="176">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="fact-card">
+            <div class="fact-eyebrow"><span>Field Note</span><span class="pin" id="factState">— —</span></div>
+            <div class="fact-city" id="factCity">—</div>
+            <div class="fact-text" id="factText">—</div>
+          </div>
+        </foreignObject>
+
+        <g id="startG"></g>
+        <g id="finishG"></g>
+
+        <g id="marker">
+          <circle class="pulse" cx="0" cy="0"/>
+          <circle cx="0" cy="0" r="8.5" fill="var(--gold)" stroke="var(--ink)" stroke-width="2.5"/>
+          <circle cx="0" cy="0" r="2.6" fill="var(--ink)"/>
+          <rect class="you-tag-bg" x="-17" y="-34" width="34" height="15" rx="2"/>
+          <text class="you-tag" x="0" y="-23.5" text-anchor="middle">YOU</text>
+          <path d="M-4,-19 L4,-19 L0,-14 Z" class="you-tag-bg"/>
+        </g>
+      </svg>
+    </main>
+  </div>
+
+  <footer>
+    <span class="compass">N ↑ — the pin always travels south.</span>
+    <span>Distances follow the historic U.S. Route 1 corridor down the Atlantic coast;
+      city mileposts are measured from Manhattan and rounded. 1,284&nbsp;mi ≈ a 2026 annual mileage goal.</span>
+  </footer>
+</div>
+
+<script>
+const TOTAL = 1284;
+const cities = [
+  {name:"New York City", state:"New York",       mi:0,
+   fact:"Mile zero. The George Washington Bridge, just upriver, carries more vehicles than any other bridge on Earth."},
+  {name:"Newark",        state:"New Jersey",     mi:11,
+   fact:"Newark Liberty opened in 1928 as the New York region's first major commercial airfield."},
+  {name:"Trenton",       state:"New Jersey",     mi:55,
+   fact:"\u201cTrenton Makes \u2014 The World Takes\u201d still glows on the bridge over the Delaware. It was briefly the U.S. capital in 1784."},
+  {name:"Philadelphia",  state:"Pennsylvania",   mi:95,
+   fact:"The first U.S. capital, and home to Elfreth's Alley (1703) \u2014 the country's oldest continuously inhabited residential street."},
+  {name:"Wilmington",    state:"Delaware",       mi:117,
+   fact:"More than half of all U.S. publicly traded companies are legally incorporated in tiny Delaware."},
+  {name:"Baltimore",     state:"Maryland",       mi:185,
+   fact:"Francis Scott Key wrote the national anthem here in 1814, watching the bombardment of Fort McHenry."},
+  {name:"Washington",    state:"D.C.",           mi:225,
+   fact:"Height limits keep the capital low-rise \u2014 which is why D.C. has almost no skyscrapers."},
+  {name:"Fredericksburg",state:"Virginia",       mi:277,
+   fact:"George Washington grew up just outside town. The cherry-tree story, though, was invented by a biographer."},
+  {name:"Richmond",      state:"Virginia",       mi:328,
+   fact:"Richmond's Hollywood Cemetery is the resting place of two U.S. presidents \u2014 Monroe and Tyler."},
+  {name:"Petersburg",    state:"Virginia",       mi:351,
+   fact:"The siege of Petersburg in 1864\u201365 ran 292 days \u2014 the longest of the Civil War."},
+  {name:"Emporia",       state:"Virginia",       mi:413,
+   fact:"This corner of Virginia is peanut country \u2014 the big-kernel \u201cVirginia\u201d peanut takes its name from these fields."},
+  {name:"Roanoke Rapids",state:"North Carolina", mi:433,
+   fact:"Built as a planned mill town on the Roanoke River's rapids \u2014 the falls that gave it both its name and its power."},
+  {name:"Rocky Mount",   state:"North Carolina", mi:478,
+   fact:"Jazz pioneer Thelonious Monk was born here in 1917."},
+  {name:"Wilson",        state:"North Carolina", mi:498,
+   fact:"Once the \u201cWorld's Greatest Tobacco Market,\u201d now known for Vollis Simpson's towering kinetic whirligigs."},
+  {name:"Fayetteville",  state:"North Carolina", mi:568,
+   fact:"Named for the Marquis de Lafayette in 1783 \u2014 the first U.S. city named for him, and one he actually visited."},
+  {name:"Lumberton",     state:"North Carolina", mi:600,
+   fact:"Sits on the Lumber River, one of the few designated blackwater Wild & Scenic rivers in the country."},
+  {name:"Dillon",        state:"South Carolina", mi:622,
+   fact:"Home of \u201cSouth of the Border\u201d \u2014 the sombrero-topped roadside landmark luring drivers off the highway since 1949."},
+  {name:"Florence",      state:"South Carolina", mi:640,
+   fact:"The route's halfway point: from here, Miami is exactly as far away as New York."},
+  {name:"Santee",        state:"South Carolina", mi:701,
+   fact:"Beside town lies Lake Marion, South Carolina's largest lake and a bass-fishing legend."},
+  {name:"Walterboro",    state:"South Carolina", mi:758,
+   fact:"The \u201cFront Porch of the Lowcountry,\u201d wrapped around a 600-acre wilderness swamp sanctuary in the middle of town."},
+  {name:"Savannah",      state:"Georgia",        mi:800,
+   fact:"Savannah's downtown is built around 22 leafy squares, laid out in 1733 \u2014 one of America's first planned cities."},
+  {name:"Brunswick",     state:"Georgia",        mi:878,
+   fact:"Gateway to the Golden Isles. Brunswick stew may have been invented here \u2014 though Virginia loudly disputes it."},
+  {name:"Jacksonville",  state:"Florida",        mi:939,
+   fact:"By land area, Jacksonville is the largest city in the contiguous United States."},
+  {name:"St. Augustine", state:"Florida",        mi:974,
+   fact:"Founded by the Spanish in 1565 \u2014 the oldest continuously occupied European-settled city in the U.S."},
+  {name:"Daytona Beach", state:"Florida",        mi:1026,
+   fact:"Racers once tore down the hard-packed sand here; the beach is still firm enough to drive on in places."},
+  {name:"Titusville",    state:"Florida",        mi:1066,
+   fact:"\u201cSpace City USA\u201d \u2014 close enough to Kennedy Space Center to watch rockets clear the treeline."},
+  {name:"Melbourne",     state:"Florida",        mi:1104,
+   fact:"On Florida's Space Coast; reputedly named after Melbourne, Australia, the former home of an early postmaster."},
+  {name:"Vero Beach",    state:"Florida",        mi:1139,
+   fact:"\u201cDodgertown\u201d \u2014 the Brooklyn and L.A. Dodgers held spring training here from 1948 to 2008."},
+  {name:"Fort Pierce",   state:"Florida",        mi:1159,
+   fact:"The Navy's WWII frogmen \u2014 forerunners of today's SEALs \u2014 trained on these beaches."},
+  {name:"Stuart",        state:"Florida",        mi:1179,
+   fact:"Calls itself the \u201cSailfish Capital of the World\u201d for its legendary offshore fishing."},
+  {name:"West Palm Beach",state:"Florida",       mi:1216,
+   fact:"Henry Flagler built the town in the 1890s to house the workers serving his Palm Beach resorts across the lagoon."},
+  {name:"Boca Raton",    state:"Florida",        mi:1240,
+   fact:"IBM developed the first mass-market personal computer here in 1981."},
+  {name:"Fort Lauderdale",state:"Florida",       mi:1258,
+   fact:"More than 300 miles of inland canals earn it the nickname \u201cVenice of America.\u201d"},
+  {name:"Hollywood",     state:"Florida",        mi:1266,
+   fact:"Its 2.5-mile beachfront Broadwalk has been a promenade since the 1920s Florida land boom."},
+  {name:"Miami",         state:"Florida",        mi:1284,
+   fact:"Journey's end. Miami is the only major U.S. city founded by a woman \u2014 Julia Tuttle, in 1896."},
+];
+const labelled = new Set(["New York City","Philadelphia","Baltimore","Washington",
+  "Richmond","Rocky Mount","Florence","Savannah","Jacksonville","Daytona Beach",
+  "West Palm Beach","Miami"]);
+const states = [
+  {ab:"N.J.", mi:34}, {ab:"PA",  mi:100}, {ab:"MD", mi:175},
+  {ab:"VA",   mi:345},{ab:"N.C.",mi:520}, {ab:"S.C.",mi:690},
+  {ab:"GA",   mi:840},{ab:"FLA", mi:1110},
+];
+const SVGNS = "http://www.w3.org/2000/svg";
+const route = document.getElementById("route");
+const L = route.getTotalLength();
+const ptAt = m => route.getPointAtLength(L * Math.max(0,Math.min(m/TOTAL,1)));
+const fmt  = n => Math.round(n).toLocaleString();
+function el(tag, attrs, parent){
+  const e = document.createElementNS(SVGNS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(e);
+  return e;
+}
+
+// ---- linear-pace default: TOTAL / 365 * days elapsed this year ----
+const now = new Date();
+const dayOfYear = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
+const PACE_DEFAULT = Math.round(TOTAL / 365 * dayOfYear);
+
+// ---- build static map layers ----
+const dotsG = document.getElementById("dots");
+const labelsG = document.getElementById("labels");
+cities.forEach((c,i) => {
+  const p = ptAt(c.mi);
+  el("circle", {cx:p.x, cy:p.y, r:3.3, class:"citydot", "data-i":i}, dotsG);
+  if(labelled.has(c.name)){
+    const right = p.x < 340;
+    const t = el("text", {
+      x: right ? p.x + 9 : p.x - 9, y:p.y + 3.5, class:"citylabel", "data-i":i,
+      "text-anchor": right ? "start" : "end"
+    }, labelsG);
+    t.textContent = c.name;
+  }
+});
+const statesG = document.getElementById("states");
+states.forEach(s => {
+  const p = ptAt(s.mi);
+  const t = el("text", {x:p.x - 46, y:p.y + 4, class:"statelabel", "text-anchor":"end"}, statesG);
+  t.textContent = s.ab;
+});
+const milesG = document.getElementById("miles-g");
+[200,400,600,800,1000,1200].forEach(m => {
+  const p = ptAt(m);
+  el("line", {x1:p.x+6, y1:p.y, x2:p.x+13, y2:p.y, class:"miletick"}, milesG);
+  const t = el("text", {x:p.x+16, y:p.y+3, class:"milemark"}, milesG);
+  t.textContent = m + " mi";
+});
+function endMarker(groupId, m, label, color){
+  const g = document.getElementById(groupId);
+  const p = ptAt(m);
+  el("circle", {cx:p.x, cy:p.y, r:6.5, fill:color, stroke:"var(--ink)", "stroke-width":2.5}, g);
+  el("circle", {cx:p.x, cy:p.y, r:2, fill:"var(--cream)"}, g);
+  const onLeft = m === 0;
+  const t = el("text", {x: onLeft ? p.x-12 : p.x+12, y:p.y-8, class:"endlabel",
+    "text-anchor": onLeft ? "end" : "start"}, g);
+  t.textContent = label;
+}
+endMarker("startG", 0, "START", "var(--ink)");
+endMarker("finishG", TOTAL, "FINISH", "var(--done)");
+
+// ---- dynamic render ----
+const $ = id => document.getElementById(id);
+const marker = $("marker"), routeDone = $("routeDone"),
+      factFO = $("factFO"), leader = $("leader");
+routeDone.style.strokeDasharray = L;
+
+function lastPassed(m){ let r=cities[0]; for(const c of cities){ if(c.mi<=m+0.001) r=c; else break; } return r; }
+function nextUp(m){ for(const c of cities){ if(c.mi>m+0.001) return c; } return null; }
+function nearest(m){
+  let best=cities[0], bd=Infinity;
+  for(const c of cities){ const d=Math.abs(c.mi-m); if(d<bd){bd=d;best=c;} }
+  return best;
+}
+
+const rafIds = {};
+function animateNum(node, to, opts){
+  opts = opts || {};
+  const prefix = opts.prefix||"", suffix = opts.suffix||"", decimals = opts.decimals||0;
+  const key = node.id||prefix;
+  cancelAnimationFrame(rafIds[key]);
+  const from = parseFloat(node.dataset.val||"0"), start = performance.now(), dur = 420;
+  (function step(t0){
+    const t = Math.min((t0-start)/dur,1), e = 1-Math.pow(1-t,3);
+    const v = from + (to-from)*e;
+    node.textContent = prefix + (decimals ? v.toFixed(decimals) : fmt(v)) + suffix;
+    if(t<1) rafIds[key] = requestAnimationFrame(step);
+    else { node.dataset.val = to; node.textContent = prefix + (decimals?to.toFixed(decimals):fmt(to)) + suffix; }
+  })(start);
+}
+
+// smooth glide for the fun-fact card + leader line
+let cardY = 300, cardYTarget = 300, pinPt = {x:0,y:0}, cardRAF = null;
+function tweenCard(){
+  cardY += (cardYTarget - cardY) * 0.22;
+  if(Math.abs(cardYTarget - cardY) < 0.4) cardY = cardYTarget;
+  factFO.setAttribute("y", cardY);
+  leader.setAttribute("x1", 244); leader.setAttribute("y1", cardY + 88);
+  leader.setAttribute("x2", pinPt.x - 11); leader.setAttribute("y2", pinPt.y);
+  if(cardY !== cardYTarget) cardRAF = requestAnimationFrame(tweenCard);
+}
+
+function render(rawMiles){
+  const m = Math.max(0, rawMiles);
+  const shown = Math.min(m, TOTAL);
+  const progress = shown / TOTAL;
+  const arrived = m >= TOTAL;
+
+  routeDone.style.strokeDashoffset = L * (1 - progress);
+  const p = ptAt(shown);
+  pinPt = p;
+  marker.setAttribute("transform", `translate(${p.x},${p.y})`);
+
+  $("slider").style.setProperty("--fill", (Math.min(m,TOTAL)/TOTAL)*100 + "%");
+
+  const near = arrived ? cities[cities.length-1] : nearest(shown);
+  const last = lastPassed(shown);
+  const next = nextUp(shown);
+
+  let qual;
+  if(arrived) qual = "Destination reached";
+  else if(shown >= near.mi) qual = (near.mi===0) ? "Starting line" : "Just past";
+  else qual = "Approaching";
+  $("qualifier").textContent = qual;
+  $("cityName").textContent = near.name;
+  $("cityState").textContent = near.state;
+
+  if(arrived){
+    $("context").innerHTML = `You've covered the full distance \u2014 <b>Miami</b>. ` +
+      (m > TOTAL ? `That's <b>${fmt(m-TOTAL)} mi</b> beyond the goal.` : `Right on the number.`);
+  } else {
+    const pastTxt = last.mi===0
+      ? `<b>${fmt(shown)} mi</b> south of the New York start`
+      : `<b>${fmt(shown-last.mi)} mi</b> past <b>${last.name}, ${last.state}</b>`;
+    $("context").innerHTML = `You're ${pastTxt}` +
+      (next ? `, with <b>${fmt(next.mi-shown)} mi</b> to go before <b>${next.name}</b>.` : `.`);
+  }
+
+  animateNum($("sMile"), shown, {prefix:"Mile "});
+  animateNum($("sPct"), progress*100, {suffix:"%", decimals:1});
+  $("sLeft").textContent = arrived
+    ? (m>TOTAL ? "+"+fmt(m-TOTAL)+" mi" : "0 mi")
+    : fmt(TOTAL-shown) + " mi";
+  $("sNext").textContent = next ? fmt(next.mi - shown) + " mi" : "\u2014";
+  $("sLeftK").textContent = arrived ? "beyond the goal" : "still to Miami";
+
+  // fun-fact card
+  $("factCity").textContent = near.name;
+  $("factState").textContent = near.state;
+  const ft = $("factText");
+  ft.textContent = near.fact;
+  ft.style.animation = "none"; void ft.offsetWidth; ft.style.animation = "";
+  cardYTarget = Math.max(12, Math.min(p.y - 88, 642));
+  cancelAnimationFrame(cardRAF);
+  cardRAF = requestAnimationFrame(tweenCard);
+
+  const stopsBox = $("stops");
+  stopsBox.innerHTML = "";
+  const upcoming = cities.filter(c => c.mi > shown + 0.001).slice(0,4);
+  if(upcoming.length === 0){
+    const d = document.createElement("div");
+    d.className = "arrived-note";
+    d.innerHTML = `<b>Welcome to Miami.</b> The whole eastern seaboard is behind you \u2014 ` +
+      `pick a new road, or just keep running.`;
+    stopsBox.appendChild(d);
+  } else {
+    upcoming.forEach(c => {
+      const row = document.createElement("div");
+      row.className = "stop";
+      row.innerHTML = `<div class="nm">${c.name} <span>${c.state}</span></div>` +
+                      `<div class="di">+${fmt(c.mi-shown)} mi</div>`;
+      stopsBox.appendChild(row);
+    });
+  }
+
+  document.querySelectorAll(".citydot").forEach(d => {
+    const c = cities[+d.dataset.i];
+    d.classList.toggle("passed", c.mi <= shown + 0.001);
+    d.classList.toggle("near", c === near && !arrived);
+    d.setAttribute("r", c === near && !arrived ? 5.6 : 3.3);
+  });
+  document.querySelectorAll(".citylabel").forEach(t => {
+    const c = cities[+t.dataset.i];
+    t.classList.toggle("passed", c.mi <= shown + 0.001);
+  });
+}
+
+// ---- wire inputs ----
+const milesIn = $("miles"), sliderIn = $("slider");
+function setAll(v, fromSlider){
+  v = isNaN(v) ? 0 : v;
+  if(!fromSlider) sliderIn.value = Math.min(Math.max(v,0),TOTAL);
+  if(fromSlider) milesIn.value = v;
+  render(v);
+}
+milesIn.addEventListener("input", e => setAll(parseFloat(e.target.value), false));
+sliderIn.addEventListener("input", e => setAll(parseFloat(e.target.value), true));
+document.querySelectorAll(".chip").forEach(ch => {
+  ch.addEventListener("click", () => {
+    const v = parseFloat(ch.dataset.v);
+    milesIn.value = v; setAll(v, false);
+  });
+});
+
+// ---- initialise to the linear-pace default ----
+const chipPace = $("chipPace");
+chipPace.dataset.v = PACE_DEFAULT;
+chipPace.textContent = fmt(PACE_DEFAULT) + " \u00b7 on pace";
+milesIn.value = PACE_DEFAULT;
+sliderIn.value = Math.min(PACE_DEFAULT, TOTAL);
+cardY = cardYTarget = Math.max(12, Math.min(ptAt(PACE_DEFAULT).y - 88, 642));
+render(PACE_DEFAULT);
+</script>
+</body>
+</html>
