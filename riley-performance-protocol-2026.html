@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riley Performance Protocol — 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  /* ── TOKENS (matching coltonriley.com) ─────────────────── */
+  :root {
+    --palm:    #1a4a2e;
+    --palm-lt: #2d7a50;
+    --mint:    #3daa6e;
+    --mint-lt: #e8f5e0;
+    --pink:    #e85d8a;
+    --pink-lt: #fde8f0;
+    --gold:    #f9c64a;
+    --gold-lt: #fff9e0;
+    --aqua:    #5bc8d8;
+    --aqua-lt: #e0f7fa;
+    --mango:   #ff8c42;
+    --cream:   #fdfaf5;
+    --text:    #1c2b22;
+    --muted:   #5a7a65;
+    --border:  rgba(26,74,46,0.12);
+
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', system-ui, sans-serif;
+    --radius:     12px;
+    --radius-lg:  20px;
+    --shadow:     0 4px 24px rgba(26,74,46,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO (mirrors site page-hero) ─────────────────── */
+  .hero {
+    background: linear-gradient(135deg, var(--palm) 0%, #2d6b47 100%);
+    padding: 5rem 2.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+    color: white;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: rgba(249,198,74,0.14);
+    filter: blur(20px);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    left: -60px;
+    bottom: -80px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: rgba(232,93,138,0.10);
+    filter: blur(30px);
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 600;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: white;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .hero-tagline {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-style: italic;
+    font-weight: 400;
+    color: rgba(255,255,255,0.85);
+    max-width: 38rem;
+    margin-bottom: 2.5rem;
+  }
+  .hero-meta {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ── ATHLETE STAT STRIP (mirrors site stat-strip) ─────── */
+  .stat-strip {
+    background: var(--palm);
+    padding: 2.5rem 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1.05;
+    margin-bottom: 0.4rem;
+  }
+  .stat-value .sub { font-size: 1rem; color: rgba(255,255,255,0.6); display: block; margin-top: 0.2rem; font-style: italic; font-weight: 400; }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ── SECTIONS ─────────────────────────────────────────── */
+  section { padding: 5rem 2.5rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    color: var(--palm);
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+  .section-title em { font-style: italic; color: var(--mint); }
+  .divider {
+    width: 48px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--pink), var(--gold));
+    margin-bottom: 2rem;
+  }
+  .section-lede {
+    max-width: 60ch;
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── PROSE ───────────────────────────────────────────── */
+  .prose p {
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 68ch;
+  }
+  .prose p strong { color: var(--text); font-weight: 500; }
+  .prose p em { color: var(--palm); font-style: italic; }
+
+  .pullquote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    line-height: 1.3;
+    color: var(--palm);
+    border-left: 3px solid var(--pink);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    max-width: 28ch;
+    font-weight: 400;
+  }
+
+  /* ── DAILY TIMELINE ─────────────────────────────────── */
+  .timeline {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .time-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2rem;
+    padding: 1.6rem 1.8rem;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .time-row:last-child { border-bottom: none; }
+  .time-tag {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--mint);
+    text-transform: uppercase;
+  }
+  .time-tag .when {
+    display: block;
+    color: var(--muted);
+    font-size: 0.66rem;
+    margin-top: 0.3rem;
+    letter-spacing: 0.14em;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .time-item {
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .time-note {
+    color: var(--muted);
+    font-size: 0.93rem;
+    font-style: italic;
+    line-height: 1.65;
+  }
+  @media (max-width: 700px) {
+    .time-row { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+
+  /* ── STACK CARDS (mirrors site work-card) ────────────── */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.22s, box-shadow 0.22s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(26,74,46,0.14);
+  }
+  .card-accent-bar {
+    height: 4px;
+    border-radius: 4px;
+    margin-bottom: 1.25rem;
+  }
+  .bar-foundation { background: linear-gradient(90deg, var(--mint), var(--aqua)); }
+  .bar-endurance  { background: linear-gradient(90deg, var(--gold), var(--mango)); }
+  .bar-recovery   { background: linear-gradient(90deg, var(--pink), var(--mango)); }
+  .bar-drop       { background: linear-gradient(90deg, #d23e3e, var(--pink)); }
+  .bar-lab        { background: linear-gradient(90deg, var(--aqua), var(--mint)); }
+
+  .stack-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  .stack-name {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--palm);
+    margin-bottom: 0.3rem;
+  }
+  .stack-brand {
+    font-family: var(--font-serif);
+    font-size: 0.98rem;
+    color: var(--pink);
+    font-style: italic;
+    margin-bottom: 1.1rem;
+  }
+  .stack-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem 0.9rem;
+    margin-bottom: 1rem;
+    font-size: 0.82rem;
+  }
+  .stack-meta dt {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .stack-meta dd {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .stack-rationale {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--muted);
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+  }
+  .chip {
+    display: inline-block;
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 50px;
+    background: var(--mint-lt);
+    color: var(--palm);
+    border: 1px solid rgba(61,170,110,0.25);
+    margin-top: 0.85rem;
+  }
+  .chip-gold { background: var(--gold-lt); color: #8a6300; border-color: rgba(249,198,74,0.4); }
+  .chip-pink { background: var(--pink-lt); color: #a32b56; border-color: rgba(232,93,138,0.3); }
+  .chip-aqua { background: var(--aqua-lt); color: #1e6770; border-color: rgba(91,200,216,0.35); }
+
+  /* ── RACE BLOCK ─────────────────────────────────────── */
+  .race-block {
+    background: linear-gradient(145deg, var(--palm) 0%, var(--palm-lt) 100%);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .race-block::before {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: rgba(249,198,74,0.12);
+    filter: blur(15px);
+  }
+  .race-block > * { position: relative; }
+  .race-title {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.75rem;
+    color: white;
+  }
+  .race-title em { color: var(--gold); font-style: italic; font-weight: 400; }
+  .race-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .race-cell {
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-top: 1rem;
+  }
+  .race-when {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .race-action {
+    font-size: 0.93rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.88);
+  }
+
+  /* ── SHOPPING CARDS ──────────────────────────────────── */
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1.5rem;
+  }
+  .shop-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: 1.6rem 1.75rem 1.75rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.22s, box-shadow 0.22s;
+    display: flex;
+    flex-direction: column;
+  }
+  .shop-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(26,74,46,0.12); }
+  .shop-num {
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .shop-name {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--palm);
+    line-height: 1.2;
+    margin-bottom: 0.7rem;
+  }
+  .shop-purpose {
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 1.15rem;
+    padding-bottom: 1.15rem;
+    border-bottom: 1px dashed var(--border);
+  }
+  .shop-tier {
+    margin-bottom: 0.8rem;
+  }
+  .tier-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mint);
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+  .tier-label.backup { color: var(--mango); }
+  .tier-brand {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.35;
+  }
+  .shop-foot {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.78rem;
+  }
+  .shop-cadence { color: var(--muted); letter-spacing: 0.04em; }
+  .shop-cost {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--palm);
+  }
+
+  /* ── COST SUMMARY STRIP ─────────────────────────────── */
+  .cost-strip {
+    background: var(--palm);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
+    margin-top: 3rem;
+    color: white;
+  }
+  .cost-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+  .cost-block { padding: 0 0.5rem; }
+  .cost-block .label {
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0.6rem;
+  }
+  .cost-block .amount {
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .cost-block .amount .sym { font-size: 1.2rem; vertical-align: top; opacity: 0.7; }
+  .cost-block .note {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ── LAB DECISION CARDS ─────────────────────────────── */
+  .lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  .lab-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: 1.5rem 1.75rem;
+    box-shadow: var(--shadow);
+  }
+  .lab-priority {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--aqua);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  .lab-priority.high { color: var(--pink); }
+  .lab-name {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--palm);
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+  .lab-rule {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .lab-rule .if {
+    color: var(--pink);
+    font-weight: 600;
+    font-style: normal;
+    margin-right: 0.25rem;
+  }
+
+  /* ── PRINCIPLES ─────────────────────────────────────── */
+  .principles {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 2rem 2.5rem;
+  }
+  .principle-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .principle-item:last-child { border-bottom: none; }
+  .principle-num {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    font-style: italic;
+  }
+  .principle-text {
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .principle-text strong { color: var(--palm); font-weight: 500; }
+
+  /* ── FOOTER ─────────────────────────────────────────── */
+  footer {
+    background: var(--palm);
+    color: rgba(255,255,255,0.65);
+    padding: 3.5rem 2.5rem;
+    text-align: center;
+  }
+  .footer-mark {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  footer .meta {
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1.5rem;
+  }
+  .disclaimer {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    max-width: 56ch;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 700px) {
+    section { padding: 3.5rem 1.25rem; }
+    .hero { padding: 3.5rem 1.25rem 3rem; }
+    .stat-strip { padding: 2rem 1.25rem; }
+    .race-block { padding: 1.75rem 1.5rem; }
+    .principles { padding: 1.5rem 1.5rem; }
+  }
+
+  /* ── PRINT ──────────────────────────────────────────── */
+  @media print {
+    .hero, .stat-strip, .cost-strip, .race-block, footer {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    section { page-break-inside: avoid; }
+    .card, .shop-card, .lab-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Protocol Document · v1.1 · May 2026</div>
+    <h1>The Riley<br><em>Performance Protocol</em></h1>
+    <p class="hero-tagline">A two-year supplement, training-support, and lab framework — built for high mileage, body composition shift, and midlife optimization.</p>
+    <div class="hero-meta">Stamford, CT · Personal Use · Confidential</div>
+  </div>
+</section>
+
+<!-- ── ATHLETE STAT STRIP ─────────────────────────────── -->
+<div class="stat-strip">
+  <div class="stat-grid">
+    <div>
+      <div class="stat-value">42<span class="sub">M · 175 lb</span></div>
+      <div class="stat-label">Athlete</div>
+    </div>
+    <div>
+      <div class="stat-value">1,200+<span class="sub">mi target · 360 YTD</span></div>
+      <div class="stat-label">Annual Mileage</div>
+    </div>
+    <div>
+      <div class="stat-value">1:47<span class="sub">half · Apr 19, 2026</span></div>
+      <div class="stat-label">Current PR</div>
+    </div>
+    <div>
+      <div class="stat-value">24 mo<span class="sub">May '26 – May '28</span></div>
+      <div class="stat-label">Horizon</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FRAME ──────────────────────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">01 / The Frame</div>
+    <h2 class="section-title">Three goals,<br>one <em>physiological conflict.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">Body composition, hypertrophy, and endurance pull in different directions. The protocol below is designed to manage that tension, not pretend it away.</p>
+
+    <div class="prose">
+      <p><strong>Goal 1 — Drop body fat to visible six-pack.</strong> Requires a sustained ~300-500 kcal/day deficit. Compromises recovery and run quality if too aggressive. Satiety is the limiting variable; whole-food protein beats liquid every time.</p>
+      <p><strong>Goal 2 — Build upper-body muscle and overall strength.</strong> Requires adequate protein (2.0-2.2 g/kg, ~160-175 g/day), progressive lifting, and recovery. Anabolic resistance starts to bite in the 40s — leucine threshold per meal (~2.5-3 g) becomes <em>more</em> important, not less.</p>
+      <p><strong>Goal 3 — Build leg strength without breaking run training.</strong> Lower-body lifting timed away from key runs (24-48 hrs), bias toward heavy-low-rep work (3-5 reps, 80-90% 1RM) over volume — better strength-per-fatigue ratio.</p>
+      <div class="pullquote">Endurance and hypertrophy aren't opposed — but a deep deficit while doing both is.</div>
+      <p>The supplement stack below is built around this conflict: support recovery and adaptation aggressively, fill micronutrient gaps the deficit and high mileage create, and remove anything that's expensive theatre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DAILY TIMELINE ─────────────────────────────────── -->
+<section style="background: linear-gradient(180deg, var(--cream) 0%, var(--mint-lt) 100%);">
+  <div class="section-inner">
+    <div class="section-label">02 / The Day</div>
+    <h2 class="section-title">The <em>daily</em> protocol.</h2>
+    <div class="divider"></div>
+    <p class="section-lede">Timing matters more than people think. The stack is structured around three windows: morning fat-soluble loading, pre-training tendon synthesis, and pre-sleep nervous-system downshift.</p>
+
+    <div class="timeline">
+      <div class="time-row">
+        <div class="time-tag">06:30 AM<span class="when">Wake</span></div>
+        <div>
+          <div class="time-item">Vitamin D3 + K2 · Omega-3 (1st dose) · Creatine 5 g</div>
+          <p class="time-note">Fat-soluble vitamins with breakfast fat (whole milk in espresso works). If iron is added later, take it at this window — but 2+ hrs from coffee.</p>
+        </div>
+      </div>
+      <div class="time-row">
+        <div class="time-tag">~60 min<br>pre-training<span class="when">Pre-Run / Pre-Lift</span></div>
+        <div>
+          <div class="time-item">Collagen peptides 15-20 g + Vitamin C 50 mg</div>
+          <p class="time-note">This is the non-negotiable timing. Tendon collagen synthesis peaks ~30-60 min after this combo — taken pre-loading, it ~doubles synthesis vs. random-time intake. Critical with your mileage ramp.</p>
+        </div>
+      </div>
+      <div class="time-row">
+        <div class="time-tag">During run<span class="when">If &gt;60 min</span></div>
+        <div>
+          <div class="time-item">LMNT or Skratch in bottle · GU gel every 30-45 min (or Maurten on race day)</div>
+          <p class="time-note">Cadence: ~30-60 g carbs/hr for runs over an hour; bump to 60-90 g/hr at race pace. Sodium ~500-1,000 mg/hr in heat.</p>
+        </div>
+      </div>
+      <div class="time-row">
+        <div class="time-tag">Post-train<span class="when">Within 60 min</span></div>
+        <div>
+          <div class="time-item">Whey isolate 25-40 g + carbs (real food)</div>
+          <p class="time-note">Recovery window matters less than total daily protein, but timing here is convenient. Real food with the shake — not the shake alone.</p>
+        </div>
+      </div>
+      <div class="time-row">
+        <div class="time-tag">Mid-day<span class="when">Lunch / 3pm</span></div>
+        <div>
+          <div class="time-item">Omega-3 (2nd dose) · whole-food protein</div>
+          <p class="time-note">Aim for 35-50 g protein per feeding. Three feedings of 40 g beats five of 20 g for someone your age — better leucine pulse per meal.</p>
+        </div>
+      </div>
+      <div class="time-row">
+        <div class="time-tag">Pre-bed<span class="when">~30 min before sleep</span></div>
+        <div>
+          <div class="time-item">Magnesium glycinate 300-400 mg + L-Threonate 1.5-2 g · Tart cherry 480 mg · Casein 30-40 g (lift days)</div>
+          <p class="time-note">Glycinate for nervous-system downshift, threonate for sleep quality and cognitive markers. Tart cherry has the best sleep data of any "natural" supplement. Casein only on lift days for overnight MPS.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUNDATION STACK ───────────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">03 / Foundation Stack</div>
+    <h2 class="section-title">Daily <em>foundation.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">The five everyone should take regardless of sport — calibrated for your demographic, training load, and the gaps a desk-job diet creates.</p>
+
+    <div class="stack-grid">
+
+      <article class="card">
+        <div class="card-accent-bar bar-foundation"></div>
+        <div class="stack-num">F · 01</div>
+        <h3 class="stack-name">Vitamin D3 + K2</h3>
+        <div class="stack-brand">Thorne Vitamin D/K2 Liquid</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>5,000 IU D3 / 100 mcg MK-7</dd>
+          <dt>Timing</dt><dd>AM, with fat</dd>
+          <dt>Form</dt><dd>Liquid drops</dd>
+        </dl>
+        <p class="stack-rationale">Desk worker, indoor light — almost certainly suboptimal without supplementation. K2-MK7 directs calcium away from arteries; relevant given midlife CV focus. Dose is provisional pending your 25-OH D level.</p>
+        <span class="chip">NSF · TGA Tested</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-foundation"></div>
+        <div class="stack-num">F · 02</div>
+        <h3 class="stack-name">Omega-3 EPA/DHA</h3>
+        <div class="stack-brand">Nordic Naturals Ultimate Omega 2X</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>2 softgels · ~2.15 g EPA + 1 g DHA</dd>
+          <dt>Timing</dt><dd>Split AM / PM, with food</dd>
+          <dt>Form</dt><dd>Triglyceride</dd>
+        </dl>
+        <p class="stack-rationale">IFOS 5-star purity, low TOTOX (oxidation) score. Triglyceride form has better bioavailability than ethyl ester. Anti-inflammatory effect matters with high mileage; ApoB / triglyceride benefit matters at 42.</p>
+        <span class="chip chip-aqua">IFOS 5★ · Friend of the Sea</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-foundation"></div>
+        <div class="stack-num">F · 03</div>
+        <h3 class="stack-name">Magnesium Glycinate</h3>
+        <div class="stack-brand">Pure Encapsulations Magnesium Glycinate</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>300-400 mg elemental</dd>
+          <dt>Timing</dt><dd>Pre-bed</dd>
+          <dt>Form</dt><dd>Bisglycinate chelate</dd>
+        </dl>
+        <p class="stack-rationale">Highest-bioavailability magnesium form, GI-gentle. Supports parasympathetic shift before sleep and muscle relaxation. Sweat losses on long runs deplete magnesium meaningfully.</p>
+        <span class="chip">NSF · cGMP</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-foundation"></div>
+        <div class="stack-num">F · 04</div>
+        <h3 class="stack-name">Magnesium L-Threonate</h3>
+        <div class="stack-brand">Life Extension Neuro-Mag</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>1.5-2 g (3 caps)</dd>
+          <dt>Timing</dt><dd>Pre-bed (stack with glycinate)</dd>
+          <dt>Form</dt><dd>Licensed Magtein</dd>
+        </dl>
+        <p class="stack-rationale">The only Mg form that meaningfully crosses the blood-brain barrier. Evidence base for sleep quality, NREM time, and cognitive markers in midlife adults. Pairs with glycinate — different sites of action.</p>
+        <span class="chip chip-aqua">Patented · Magtein</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-foundation"></div>
+        <div class="stack-num">F · 05</div>
+        <h3 class="stack-name">Creatine Monohydrate</h3>
+        <div class="stack-brand">Momentous Creatine (Creapure)</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>5 g/day</dd>
+          <dt>Timing</dt><dd>Any meal (consistency &gt; timing)</dd>
+          <dt>Form</dt><dd>Creapure monohydrate</dd>
+        </dl>
+        <p class="stack-rationale">Creapure is the only patent-grade monohydrate (German-sourced, &gt;99.9% pure). Skip loading — saturation takes 3-4 weeks at 5 g/day, no benefit to faster. Benefits: high-intensity output, lean mass, plus emerging data on cognition and BMD in midlife.</p>
+        <span class="chip">NSF Certified for Sport · Creapure</span>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── ENDURANCE STACK ────────────────────────────────── -->
+<section style="background: var(--gold-lt);">
+  <div class="section-inner">
+    <div class="section-label">04 / Endurance Stack</div>
+    <h2 class="section-title">Endurance &amp; <em>race-day.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">The performance-specific layer. Beta-alanine loads slowly and stays. Nitrates and gels are situational. Electrolytes scale with mileage and heat.</p>
+
+    <div class="stack-grid">
+
+      <article class="card">
+        <div class="card-accent-bar bar-endurance"></div>
+        <div class="stack-num">E · 01</div>
+        <h3 class="stack-name">Beta-Alanine</h3>
+        <div class="stack-brand">Momentous Beta-Alanine</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>3.2-6.4 g/day (split)</dd>
+          <dt>Load</dt><dd>2-4 weeks to saturation</dd>
+          <dt>Tingles?</dt><dd>Yes — harmless paresthesia</dd>
+        </dl>
+        <p class="stack-rationale">Raises intramuscular carnosine, buffers H+ during high-intensity efforts. Real benefit at 1-4 min efforts and final-kick territory — your half goal pace, plus any 5K/10K. Effect is cumulative, not acute. Don't take pre-race; this isn't pre-workout.</p>
+        <span class="chip chip-gold">NSF Certified for Sport</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-endurance"></div>
+        <div class="stack-num">E · 02</div>
+        <h3 class="stack-name">Beetroot Nitrate</h3>
+        <div class="stack-brand">Beet It Sport Shot</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>1 shot · 400 mg nitrate</dd>
+          <dt>Timing</dt><dd>2-3 hrs pre-race</dd>
+          <dt>Use</dt><dd>Race-day, not daily</dd>
+        </dl>
+        <p class="stack-rationale">Nitric oxide pathway → improved running economy ~1-2%. Most validated brand and dose. Skip mouthwash on race morning (kills the bacteria that convert nitrate to nitrite).</p>
+        <span class="chip chip-gold">Informed Sport</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-endurance"></div>
+        <div class="stack-num">E · 03</div>
+        <h3 class="stack-name">Electrolyte Mix</h3>
+        <div class="stack-brand">LMNT (primary) · Skratch (carb option)</div>
+        <dl class="stack-meta">
+          <dt>LMNT/stick</dt><dd>1 g Na · 200 mg K · 60 mg Mg</dd>
+          <dt>Use</dt><dd>Long runs, heat, post-run</dd>
+          <dt>Replaces</dt><dd>Ghost Hydration</dd>
+        </dl>
+        <p class="stack-rationale">High-sodium ratio matches actual sweat losses. Most products under-dose sodium. No artificial colors or junk amino acids. Switch to Skratch when you want ~20 g carbs in the bottle for longer efforts.</p>
+        <span class="chip chip-gold">Clean ingredient list</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-endurance"></div>
+        <div class="stack-num">E · 04</div>
+        <h3 class="stack-name">Training Gels</h3>
+        <div class="stack-brand">GU Energy</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>~22 g carbs / gel</dd>
+          <dt>Cadence</dt><dd>Every 30-45 min &gt;60 min runs</dd>
+          <dt>Caffeine</dt><dd>Reserve for last third</dd>
+        </dl>
+        <p class="stack-rationale">Stay with what your gut tolerates in training. Practice race-day fueling protocol during long runs — never experiment on race day. Build gut tolerance to 60-90 g carbs/hr over weeks.</p>
+        <span class="chip chip-gold">Ingredient transparency</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-endurance"></div>
+        <div class="stack-num">E · 05</div>
+        <h3 class="stack-name">Race-Day Gels</h3>
+        <div class="stack-brand">Maurten Gel 100 / 160</div>
+        <dl class="stack-meta">
+          <dt>Use</dt><dd>Final 2-3 long runs + races</dd>
+          <dt>Why</dt><dd>Hydrogel encapsulation</dd>
+          <dt>Carbs</dt><dd>25 g (100) · 40 g (160)</dd>
+        </dl>
+        <p class="stack-rationale">Gold standard for high-carb race nutrition. The hydrogel matrix lets you push 80-100 g carbs/hr with less GI distress. Used by virtually every elite marathoner. Worth the cost premium on race day only.</p>
+        <span class="chip chip-gold">Informed Sport</span>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── RECOVERY STACK ─────────────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">05 / Recovery Stack</div>
+    <h2 class="section-title">Protein &amp; <em>connective tissue.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">With mileage going from ~72 to ~120 mi/month, the failure point for most runners isn't muscle — it's tendons, ligaments, and fascia. The collagen protocol is the highest-leverage item in this entire document.</p>
+
+    <div class="stack-grid">
+
+      <article class="card">
+        <div class="card-accent-bar bar-recovery"></div>
+        <div class="stack-num">R · 01</div>
+        <h3 class="stack-name">Whey Isolate</h3>
+        <div class="stack-brand">Momentous Whey Isolate</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>25-30 g per serving</dd>
+          <dt>Frequency</dt><dd>2-3x daily as needed</dd>
+          <dt>Leucine</dt><dd>~2.7-3 g per scoop</dd>
+        </dl>
+        <p class="stack-rationale">Sunflower lecithin emulsifier solves the clumping you hated about Transparent Labs. Highest tier of third-party testing. Use to fill protein gaps, not to replace whole food. Cap at ~30-40% of daily protein from powder.</p>
+        <span class="chip chip-pink">NSF Certified for Sport</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-recovery"></div>
+        <div class="stack-num">R · 02</div>
+        <h3 class="stack-name">Micellar Casein</h3>
+        <div class="stack-brand">Momentous Micellar Casein</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>30-40 g</dd>
+          <dt>Timing</dt><dd>~30 min pre-sleep</dd>
+          <dt>Frequency</dt><dd>Lift days only (3-4x/wk)</dd>
+        </dl>
+        <p class="stack-rationale">Slow-digesting (4-6 hr release) — supports overnight MPS. Real benefit shown in trained men (Res 2012, Snijders 2015). Anabolic resistance at 42 means you genuinely benefit from the extended amino acid window.</p>
+        <span class="chip chip-pink">NSF Certified for Sport</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-recovery"></div>
+        <div class="stack-num">R · 03</div>
+        <h3 class="stack-name">Collagen Peptides + Vit C</h3>
+        <div class="stack-brand">Momentous Collagen Peptides</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>15-20 g + 50 mg Vit C</dd>
+          <dt>Timing</dt><dd>30-60 min PRE-loading</dd>
+          <dt>Frequency</dt><dd>Daily on training days</dd>
+        </dl>
+        <p class="stack-rationale">The Shaw/Baar lab protocol — taken pre-loading, ~doubles tendon/ligament collagen synthesis vs random-time intake. Daily without timing is just a fancy low-quality protein. With timing, it's tendon insurance during your mileage ramp.</p>
+        <span class="chip chip-pink">NSF · Vit C formulated</span>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-recovery"></div>
+        <div class="stack-num">R · 04</div>
+        <h3 class="stack-name">Tart Cherry Extract</h3>
+        <div class="stack-brand">Cherry PURE Montmorency</div>
+        <dl class="stack-meta">
+          <dt>Dose</dt><dd>480 mg/day</dd>
+          <dt>Timing</dt><dd>Pre-bed</dd>
+          <dt>Form</dt><dd>Capsule (skip juice)</dd>
+        </dl>
+        <p class="stack-rationale">Best sleep evidence base of any natural supplement — raises endogenous melatonin (Howatson et al., Pigeon et al.). Also blunts post-exercise inflammation and oxidative stress in endurance athletes. Capsule form avoids the sugar load of juice.</p>
+        <span class="chip chip-pink">Clean Label · Montmorency</span>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── RACE WEEK ──────────────────────────────────────── -->
+<section style="background: linear-gradient(135deg, var(--aqua-lt) 0%, var(--mint-lt) 100%);">
+  <div class="section-inner">
+    <div class="section-label">06 / Race Week</div>
+    <h2 class="section-title">Race-week <em>protocol.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">For the June 7 half and every race after. Don't introduce anything new race week. Adjust nutrition, not supplements.</p>
+
+    <div class="race-block">
+      <h3 class="race-title">Race Week <em>· half marathon</em></h3>
+      <div class="race-timeline">
+        <div class="race-cell">
+          <div class="race-when">T-7 to T-3 days</div>
+          <p class="race-action">Maintain full stack. Reduce running volume 30-50% (taper). No new gels, no new foods. Practice the race-morning routine on a final easy run.</p>
+        </div>
+        <div class="race-cell">
+          <div class="race-when">T-3 to T-1 days</div>
+          <p class="race-action">Carb-load: 8-10 g carbs/kg/day for 36-48 hrs (~700-900 g for you). Reduce fiber. Keep collagen daily; pause heavy lifting. Sleep is the limiting factor.</p>
+        </div>
+        <div class="race-cell">
+          <div class="race-when">Night before</div>
+          <p class="race-action">Magnesium stack + tart cherry pre-bed. Familiar dinner — pasta, white rice, lean protein. Lay out gear. No alcohol.</p>
+        </div>
+        <div class="race-cell">
+          <div class="race-when">Race morning</div>
+          <p class="race-action">3-4 hrs out: 1-2 g carbs/kg. 2-3 hrs out: Beet It Sport shot. 60 min out: collagen + vit C if you want the tendon dose. 30 min out: caffeinated gel + sip electrolyte.</p>
+        </div>
+        <div class="race-cell">
+          <div class="race-when">During race</div>
+          <p class="race-action">Maurten gel every ~25-30 min from minute 30 onward (3-4 gels for a 1:45 finish). Sip water + electrolyte at every aid station. Don't skip early fueling.</p>
+        </div>
+        <div class="race-cell">
+          <div class="race-when">Post-race</div>
+          <p class="race-action">Within 30 min: 0.4 g/kg protein + 1-1.2 g/kg carbs (whey + bagel or rice). Resume normal stack next day. Double tart cherry the next 2-3 nights for inflammation control.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SHOPPING LIST ──────────────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">07 / Shopping List</div>
+    <h2 class="section-title">Shopping list, <em>with backups.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">Primary picks are top-tier third-party certified. Backup picks are still clean and reputable — use when the primary is out of stock, on backorder, or running a long lead time on Amazon. Buy direct from manufacturer or Amazon Subscribe & Save for 5-15% off.</p>
+
+    <div class="shop-grid">
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 01</div>
+        <div class="shop-name">Vitamin D3 + K2</div>
+        <p class="shop-purpose">Bone density, immune function, and cardiovascular protection — K2 directs supplemental calcium away from arterial walls. Almost every desk-bound male in the Northeast runs low without supplementation.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Thorne Vitamin D/K2 Liquid · 1 oz</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Pure Encapsulations Vitamin D3+K2 · or Sports Research D3+K2 softgels</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 bottle / 4 mo</span>
+          <span class="shop-cost">$180/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 02</div>
+        <div class="shop-name">Omega-3 EPA/DHA</div>
+        <p class="shop-purpose">Anti-inflammatory effect at high training loads, plus cardiovascular benefit (lowers ApoB and triglycerides). Critical at 42 for both running recovery and lipid panel.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Nordic Naturals Ultimate Omega 2X · 120 ct</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Carlson Maximum Omega 2000 · or Wiley's Finest Peak EPA · or Momentous Omega-3</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 bottle / mo</span>
+          <span class="shop-cost">$600/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 03</div>
+        <div class="shop-name">Magnesium Glycinate</div>
+        <p class="shop-purpose">Sleep onset, muscle relaxation, parasympathetic shift before bed. Replaces sweat losses on long runs (endurance athletes run lower on Mg than sedentary controls).</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Pure Encapsulations Magnesium Glycinate · 180 ct</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Thorne Magnesium Bisglycinate · or Doctor's Best High Absorption Magnesium</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 bottle / 2 mo</span>
+          <span class="shop-cost">$150/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 04</div>
+        <div class="shop-name">Magnesium L-Threonate</div>
+        <p class="shop-purpose">The only Mg form that crosses the blood-brain barrier. Targets sleep quality, NREM time, and cognitive markers — distinct from glycinate's peripheral muscle/nervous-system role.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Life Extension Neuro-Mag (Magtein) · 90 ct</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Momentous Magnesium L-Threonate · or Double Wood Magtein</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 bottle / mo</span>
+          <span class="shop-cost">$420/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 05</div>
+        <div class="shop-name">Creatine Monohydrate</div>
+        <p class="shop-purpose">ATP regeneration → power output, lean mass retention in a deficit, plus emerging cognitive and bone-density data for midlife adults. The most evidence-backed supplement in sport.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Momentous Creatine (Creapure) · 450 g</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Thorne Creatine · or Klean Athlete Klean Creatine · or BulkSupplements Creapure</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 tub / 3 mo</span>
+          <span class="shop-cost">$200/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 06</div>
+        <div class="shop-name">Beta-Alanine</div>
+        <p class="shop-purpose">Raises intramuscular carnosine, buffers H+ during high-intensity efforts. Real benefit at 1-4 min efforts — your half-marathon goal pace and any 5K/10K kick.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Momentous Beta-Alanine · 300 g</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Thorne Beta-Alanine SR (sustained-release, less tingle) · or NOW Sports Beta-Alanine</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 tub / 2-3 mo</span>
+          <span class="shop-cost">$200/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 07</div>
+        <div class="shop-name">Beetroot Nitrate</div>
+        <p class="shop-purpose">Dietary nitrate → nitric oxide → ~1-2% running economy improvement. Validated for endurance race performance at the specific dose Beet It uses.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Beet It Sport Shot · 15 pack</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">HumanN BeetElite · or Force Factor Total Beets sport shots</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">~1 box / yr (race days)</span>
+          <span class="shop-cost">$60/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 08</div>
+        <div class="shop-name">Electrolyte Mix</div>
+        <p class="shop-purpose">Replaces sodium, potassium, and magnesium lost in sweat on long runs and in heat. Sodium-forward (1 g/stick) matches real sweat losses better than most "hydration" products.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">LMNT · 30 stick box</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Skratch Labs Sport Hydration (if you want carbs in the bottle) · or DripDrop ORS</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">~4 boxes / yr</span>
+          <span class="shop-cost">$160/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 09</div>
+        <div class="shop-name">Training Gels</div>
+        <p class="shop-purpose">Quick carb delivery on training runs over 60 minutes. Use what your gut tolerates and rehearse race-day fueling here — never experiment on race day.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">GU Energy Gels · 24 ct</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Spring Energy (whole-food gels, gentler GI) · or Honey Stinger Organic Gels</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">~5 boxes / yr</span>
+          <span class="shop-cost">$180/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 10</div>
+        <div class="shop-name">Race-Day Gels</div>
+        <p class="shop-purpose">High-carb (60-100 g/hr) race nutrition without GI distress, courtesy of the hydrogel encapsulation that releases sugar lower in the GI tract. Race-day only.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Maurten Gel 100 / 160 · 12 ct</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">SiS Beta Fuel (hydrogel competitor) · or Precision Fuel & Hydration PF 30 Gel</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">~3 boxes / yr (races)</span>
+          <span class="shop-cost">$120/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 11</div>
+        <div class="shop-name">Whey Isolate</div>
+        <p class="shop-purpose">Fast-acting protein for post-workout muscle protein synthesis and meal-gap filling. ~2.7-3 g leucine per scoop — clears the per-meal MPS threshold critical at 42.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Momentous Whey Isolate · 24 servings</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Klean Athlete Klean Isolate (NSF for Sport) · or Ascent Native Fuel Whey (Informed Sport, cheaper) · or Optimum Nutrition Gold Standard (best value)</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">~1 tub / 4 wk</span>
+          <span class="shop-cost">$1,100/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 12</div>
+        <div class="shop-name">Micellar Casein</div>
+        <p class="shop-purpose">Slow-release protein for overnight muscle protein synthesis on lift days. 4-6 hr amino acid drip extends the anabolic window through sleep — meaningful in your 40s.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Momentous Micellar Casein · 24 servings</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Ascent Native Fuel Casein · or Optimum Nutrition 100% Micellar Casein</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">~1 tub / 6-8 wk</span>
+          <span class="shop-cost">$280/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 13</div>
+        <div class="shop-name">Collagen Peptides</div>
+        <p class="shop-purpose">Tendon and ligament substrate. Taken with vit C 30-60 min pre-loading, ~doubles collagen synthesis at the tendon. The single highest-ROI item during a mileage ramp.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Momentous Collagen Peptides (with Vit C) · 24 servings</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Vital Proteins Collagen Peptides + separate Vit C (cheaper, NSF tested) · or Thorne Collagen Plus</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">~1 tub / 4 wk</span>
+          <span class="shop-cost">$520/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 14</div>
+        <div class="shop-name">Tart Cherry Extract</div>
+        <p class="shop-purpose">Best sleep evidence of any "natural" supplement (raises endogenous melatonin). Blunts post-exercise inflammation and DOMS in endurance athletes. Capsule avoids juice's sugar load.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Cherry PURE Montmorency Capsules · 60 ct</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Nature's Way Tart Cherry · or Cheribundi Tart Cherry capsules</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 bottle / 2 mo</span>
+          <span class="shop-cost">$120/yr</span>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-num">Item · 15</div>
+        <div class="shop-name">Vitamin C</div>
+        <p class="shop-purpose">Cofactor for collagen synthesis — must be co-ingested with collagen peptides to make the pre-loading protocol work. Also general antioxidant support during high training loads.</p>
+        <div class="shop-tier">
+          <div class="tier-label">Primary</div>
+          <div class="tier-brand">Pure Encapsulations Vitamin C 500 mg · 90 ct</div>
+        </div>
+        <div class="shop-tier">
+          <div class="tier-label backup">Backup</div>
+          <div class="tier-brand">Thorne Vitamin C with Flavonoids · or NOW Foods Vitamin C-1000</div>
+        </div>
+        <div class="shop-foot">
+          <span class="shop-cadence">1 bottle / 3 mo</span>
+          <span class="shop-cost">$50/yr</span>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- COST SUMMARY -->
+    <div class="cost-strip">
+      <div class="cost-grid">
+        <div class="cost-block">
+          <div class="label">Monthly</div>
+          <div class="amount"><span class="sym">$</span>362</div>
+          <div class="note">Premium tier across the board</div>
+        </div>
+        <div class="cost-block">
+          <div class="label">Annual</div>
+          <div class="amount"><span class="sym">$</span>4,340</div>
+          <div class="note">May '26 – May '27</div>
+        </div>
+        <div class="cost-block">
+          <div class="label">Two-year</div>
+          <div class="amount"><span class="sym">$</span>8,680</div>
+          <div class="note">Full horizon</div>
+        </div>
+        <div class="cost-block">
+          <div class="label">Cost-cut option</div>
+          <div class="amount"><span class="sym">~$</span>2,500<span style="font-size: 1rem;">/yr</span></div>
+          <div class="note">Backup brands across the board</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DROPS ──────────────────────────────────────────── -->
+<section style="background: var(--pink-lt);">
+  <div class="section-inner">
+    <div class="section-label">08 / Drops</div>
+    <h2 class="section-title">Stop buying these <em>immediately.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">Some are safety calls; some are pure expensive theatre. Either way, the money saved here funds the premium upgrades above.</p>
+
+    <div class="stack-grid">
+
+      <article class="card">
+        <div class="card-accent-bar bar-drop"></div>
+        <div class="stack-num">D · 01 — Safety</div>
+        <h3 class="stack-name">Garden of Life Sport Plant Protein</h3>
+        <p class="stack-rationale">Consumer Reports 2025: 400-600% of concern level for lead. CR's specific recommendation was a maximum of once per week. Discontinue today.</p>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-drop"></div>
+        <div class="stack-num">D · 02 — Safety</div>
+        <h3 class="stack-name">Ka'Chava</h3>
+        <p class="stack-rationale">Plant-based meal replacement. Independent lab testing detected lead, cadmium, and arsenic. Cap at 1-2x/week if you love it; otherwise drop.</p>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-drop"></div>
+        <div class="stack-num">D · 03 — Wasteful</div>
+        <h3 class="stack-name">Ghost BCAAs</h3>
+        <p class="stack-rationale">At 180 g/day total protein from complete sources, supplemental BCAAs are pharmacologically pointless and may slightly reduce MPS (Wolfe 2017). Expensive urine.</p>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-drop"></div>
+        <div class="stack-num">D · 04 — Better option</div>
+        <h3 class="stack-name">Ghost Hydration</h3>
+        <p class="stack-rationale">Under-doses sodium for real sweat losses; adds artificial sweeteners and unneeded amino acids. LMNT is cleaner and better matched to physiology.</p>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-drop"></div>
+        <div class="stack-num">D · 05 — Better option</div>
+        <h3 class="stack-name">Orgain Collagen Peptides</h3>
+        <p class="stack-rationale">Same parent-company concerns as the plant protein line. Switch to Momentous Collagen Peptides — same form (hydrolyzed bovine), pre-formulated with vit C, NSF Certified for Sport.</p>
+      </article>
+
+      <article class="card">
+        <div class="card-accent-bar bar-drop"></div>
+        <div class="stack-num">D · 06 — Consolidate</div>
+        <h3 class="stack-name">Legend Irish whey + Transparent Labs</h3>
+        <p class="stack-rationale">TL clumps because no lecithin emulsifier — you've already noticed. Consolidate to one clean isolate (Momentous or Klean) for consistency.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PENDING LABS ──────────────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">09 / Pending</div>
+    <h2 class="section-title">Labs to <em>order.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">The BMP you sent is the smallest possible lab panel. Below is what actually drives stack decisions for a 42-year-old male endurance runner. Frame for your PCP: <em>endurance athlete, high training load, body comp and longevity focus.</em></p>
+
+    <div class="lab-grid">
+
+      <article class="lab-card">
+        <div class="lab-priority high">Highest Priority</div>
+        <div class="lab-name">Ferritin + Full Iron Panel</div>
+        <p class="lab-rule"><span class="if">IF</span> ferritin &lt; 50 ng/mL: add Thorne Iron Bisglycinate 25-36 mg with vit C, 2+ hrs from coffee/tea/calcium.<br><span class="if">IF</span> &lt; 20 ng/mL: see a sports physician; consider IV iron.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 02</div>
+        <div class="lab-name">25-OH Vitamin D</div>
+        <p class="lab-rule"><span class="if">IF</span> &lt; 40 ng/mL: confirm 5,000 IU dose, recheck 90 days. Target 50-80 ng/mL.<br><span class="if">IF</span> &gt; 60 ng/mL: drop to 2,000 IU maintenance.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 03</div>
+        <div class="lab-name">Lipid Panel + ApoB + Lp(a)</div>
+        <p class="lab-rule"><span class="if">IF</span> ApoB &gt; 90 mg/dL: discuss with PCP. Lp(a) is genetic — one-time test. Statin discussion separate.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 04</div>
+        <div class="lab-name">Total + Free Testosterone, SHBG, Estradiol</div>
+        <p class="lab-rule"><span class="if">IF</span> free T low-normal: separate optimization protocol — sleep, body fat, zinc, possibly boron. HRT is a downstream conversation, not a first move.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 05</div>
+        <div class="lab-name">hsCRP</div>
+        <p class="lab-rule"><span class="if">IF</span> hsCRP &gt; 2 mg/L: investigate source — training stress, body fat, diet, sleep. Not a supplement problem.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 06</div>
+        <div class="lab-name">HbA1c + Fasting Glucose + Fasting Insulin</div>
+        <p class="lab-rule">Calculate HOMA-IR. Endurance athletes occasionally show paradoxical insulin resistance — worth a baseline.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 07</div>
+        <div class="lab-name">B12 + Folate + Homocysteine</div>
+        <p class="lab-rule"><span class="if">IF</span> B12 &lt; 400 pg/mL or homocysteine &gt; 9: methylated B-complex.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 08</div>
+        <div class="lab-name">TSH (+ Free T4 if abnormal)</div>
+        <p class="lab-rule">Endurance + deficit can suppress thyroid. Baseline before chasing fatigue with supplements.</p>
+      </article>
+
+      <article class="lab-card">
+        <div class="lab-priority">Lab · 09 — Optional</div>
+        <div class="lab-name">Omega-3 Index</div>
+        <p class="lab-rule">OmegaQuant direct-to-consumer (~$50). Target &gt; 8%. If &lt; 4%: increase Ultimate Omega 2X to 3-4 softgels/day temporarily.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PRINCIPLES ─────────────────────────────────────── -->
+<section style="background: linear-gradient(180deg, var(--cream) 0%, var(--gold-lt) 100%);">
+  <div class="section-inner">
+    <div class="section-label">10 / Operating Principles</div>
+    <h2 class="section-title">When in <em>doubt.</em></h2>
+    <div class="divider"></div>
+    <p class="section-lede">Decision rules to apply when this document doesn't have an answer.</p>
+
+    <div class="principles">
+      <div class="principle-item">
+        <div class="principle-num">i.</div>
+        <div class="principle-text"><strong>Whole food first.</strong> Cap powder at ~30-40% of daily protein. The other 60-70% (~100-120 g) from eggs, Greek yogurt, cottage cheese, chicken, fish, lean beef. Powder fills gaps; it doesn't replace meals.</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">ii.</div>
+        <div class="principle-text"><strong>Don't introduce new supplements during race weeks.</strong> Two-week trial minimum for anything new. Single-variable testing — never add two things at once.</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">iii.</div>
+        <div class="principle-text"><strong>Re-test labs annually.</strong> Specifically ferritin every 6 months during high-mileage years. Iron status can shift faster than you'll feel it.</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">iv.</div>
+        <div class="principle-text"><strong>When goals conflict, prioritize in this order:</strong> health → adaptation → performance → aesthetics. The visible six-pack is the lowest-priority goal in this document; if a deeper deficit starts hurting your runs or labs, ease up.</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">v.</div>
+        <div class="principle-text"><strong>Caffeine accounting.</strong> 4 espresso shots + caffeinated gels is ~500 mg/day. Cap at noon, full stop, or your overnight HRV and sleep architecture take the hit. Espresso with breakfast also drops non-heme iron absorption 40-90% — relevant if ferritin comes back low.</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">vi.</div>
+        <div class="principle-text"><strong>If a supplement doesn't have NSF Certified for Sport, Informed Sport, USP Verified, or an IFOS rating</strong>, default to skipping it for chronic daily use unless it's irreplaceable. "USDA Organic" is a pesticide standard, not heavy-metal safety.</div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-num">vii.</div>
+        <div class="principle-text"><strong>Update this document quarterly.</strong> Stack lives. Labs change. Race calendar shifts. Re-evaluate every 3 months.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-mark">— Protocol ends —</div>
+  <div class="meta">v1.1 · May 2026 · Built for Colton Riley</div>
+  <p class="disclaimer">This document is a personalized synthesis of current literature and product data. It is not medical advice. Lab interpretation, prescription decisions, and changes to existing therapies belong with your physician.</p>
+</footer>
+
+</body>
+</html>
