@@ -61,6 +61,12 @@ coltonriley.com/
 
 ---
 
+## Google Analytics
+
+GA4 property **coltonriley.com**, Measurement ID `G-JCH71CJMRZ`. The gtag.js snippet sits at the top of `<head>` on every `.html` page — copy it from `index.html` into any new page you add.
+
+---
+
 ## Deploying to GitHub Pages
 
 ### Step 1: Push to GitHub

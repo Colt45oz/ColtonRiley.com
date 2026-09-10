@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JCH71CJMRZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JCH71CJMRZ');
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Colton Riley — Data & Analytics Leader</title>
@@ -128,11 +136,6 @@
       gap: 3rem;
       align-items: center;
     }
-    .strava-embed-wrap {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
     .strava-info h3 {
       font-family: var(--font-serif);
       font-size: 1.5rem;
@@ -163,6 +166,92 @@
       box-shadow: 0 4px 14px rgba(252,76,2,0.3);
     }
     .strava-badge:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(252,76,2,0.35); }
+
+    /* Running dashboard card */
+    .run-card {
+      display: block;
+      position: relative;
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.75rem 1.75rem 1.5rem;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .run-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,74,46,0.16); }
+    .run-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--mango), var(--gold), var(--mint));
+    }
+    .run-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .run-live i {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--mint);
+      animation: run-pulse 1.8s infinite;
+    }
+    @keyframes run-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(61,170,110,0.55); }
+      70%  { box-shadow: 0 0 0 9px rgba(61,170,110,0); }
+      100% { box-shadow: 0 0 0 0 rgba(61,170,110,0); }
+    }
+    .run-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      font-weight: 600;
+      color: var(--palm);
+      line-height: 1.05;
+      margin: 0.6rem 0 0.3rem;
+    }
+    .run-card h3 em { font-style: italic; color: var(--mango); }
+    .run-card p { color: var(--muted); font-size: 0.86rem; line-height: 1.6; max-width: 34ch; margin: 0; }
+    .run-card svg { display: block; width: 100%; height: auto; margin: 1rem 0 0.75rem; }
+    .run-card .trace {
+      fill: none;
+      stroke: var(--mango);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 0;
+    }
+    .run-card:hover .trace { animation: run-draw 1.4s ease-out; }
+    @keyframes run-draw { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+    .run-card .run-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: white;
+      background: var(--palm);
+      padding: 0.7rem 1.4rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 16px rgba(26,74,46,0.3);
+      transition: background 0.2s;
+    }
+    .run-card:hover .run-cta { background: var(--palm-lt); }
+    .run-card .run-cta span { transition: transform 0.2s; }
+    .run-card:hover .run-cta span { transform: translateX(4px); }
+    .run-card .run-url { font-size: 0.72rem; color: var(--muted); margin-left: 0.9rem; }
+    @media (prefers-reduced-motion: reduce) {
+      .run-live i, .run-card:hover .trace { animation: none; }
+    }
 
     /* Contact strip */
     .contact-strip {
@@ -330,26 +419,17 @@
 <section class="strava-section">
   <div class="section-inner">
     <div class="strava-inner">
-      <div class="strava-embed-wrap">
-        <!-- 
-          STRAVA EMBED INSTRUCTIONS:
-          1. Go to strava.com and open a recent activity
-          2. Click the "..." menu → "Share Activity" → "Embed"
-          3. Copy the embed code and paste it below, replacing this placeholder div
-          
-          Example of what the embed code looks like:
-          <div class="strava-embed-placeholder" data-embed-type="activity" data-embed-id="YOUR_ACTIVITY_ID" data-style="standard"></div>
-          <script src="https://strava-embeds.com/embed.js"></script>
-        -->
-        <div style="background:white; padding:2rem; border-radius:var(--radius-lg); text-align:center; min-height:200px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; color:var(--muted);">
-          <div style="font-size:2.5rem;">🏃</div>
-          <div style="font-size:0.85rem; line-height:1.7;">
-            <strong style="color:var(--palm); display:block; margin-bottom:0.25rem;">Add your Strava activity here</strong>
-            Open any activity on Strava → Share → Embed<br>
-            and paste the embed code in <code style="font-size:0.75rem; background:var(--mint-lt); padding:1px 5px; border-radius:3px;">index.html</code>
-          </div>
-        </div>
-      </div>
+      <a class="run-card" href="https://run.coltonriley.com" aria-label="Open the running dashboard at run.coltonriley.com">
+        <span class="run-live"><i></i> Live · Marathon Training</span>
+        <h3>The Running<br><em>Dashboard.</em></h3>
+        <p>Every mile, pace, and long run in my marathon training progression, live as I log them.</p>
+        <svg viewBox="0 0 320 70" aria-hidden="true">
+          <path class="trace" d="M2 60 L30 55 L55 48 L80 52 L105 38 L130 42 L155 26 L180 32 L205 18 L230 24 L255 12 L280 20 L305 8 L318 14"/>
+          <circle cx="318" cy="14" r="4" fill="#ff8c42"/>
+          <circle cx="318" cy="14" r="8" fill="none" stroke="#ff8c42" stroke-opacity="0.35"/>
+        </svg>
+        <span class="run-cta">Open the dashboard <span>→</span></span><span class="run-url">run.coltonriley.com</span>
+      </a>
       <div class="strava-info">
         <div class="section-label">Outside the Office</div>
         <h3>Staying Active,<br>Staying Sharp.</h3>
