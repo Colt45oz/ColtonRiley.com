@@ -13,6 +13,7 @@ coltonriley.com/
 ├── work.html
 ├── contact.html
 ├── private.html        ← Password-gated private dashboard
+├── photo.jpg           ← Headshot (3:4, 1086×1448) used on index.html and about.html
 ├── style.css           ← Shared stylesheet
 └── README.md
 ```
@@ -21,15 +22,9 @@ coltonriley.com/
 
 ## Before You Push
 
-### 1. Add your photo
-- Save your headshot as `photo.jpg` in the root folder
-- Replace the placeholder in `index.html` and `about.html`:
-  ```html
-  <!-- Find this: -->
-  <span style="font-size:3rem;">🌿</span>
-  <!-- Replace with: -->
-  <img src="photo.jpg" alt="Colton Riley" />
-  ```
+### 1. Headshot ✅ (done Sept 2026)
+- `photo.jpg` lives in the root folder and is referenced by `index.html` (`.about-photo-placeholder`) and `about.html` (`.about-photo-tall`)
+- To swap it later, just replace `photo.jpg` with another 3:4 image — no HTML changes needed. Both frames use `object-fit: cover; object-position: center top`, so a portrait with headroom at the top crops cleanly on mobile.
 
 ### 2. Set your private dashboard password
 - Open `private.html`
@@ -69,12 +64,29 @@ GA4 property **coltonriley.com**, Measurement ID `G-JCH71CJMRZ`. The gtag.js sni
 
 ## Deploying to GitHub Pages
 
+### Day-to-day: let Claude push (set up Sept 2026)
+The working clone lives at `C:\Users\cr\Project_Folder\coltonriley.com`, with a fine-grained GitHub token (Contents read/write, this repo only) baked into its remote URL. In a Cowork session linked to the laptop:
+
+1. Add the folder `Project_Folder` to the session (Claude will also ask for delete permission on it — git needs that to clean up its lock files).
+2. Describe the change. Claude edits the files in place, commits, and pushes.
+3. GitHub Pages rebuilds in about a minute.
+
+If the laptop isn't available, Claude can clone and push from its cloud workspace instead — paste the token in that session.
+
+**Rotating the token:** generate a new fine-grained token on GitHub, then run
+```bash
+git remote set-url origin https://Colt45oz:NEW_TOKEN@github.com/Colt45oz/ColtonRiley.com.git
+```
+inside the clone.
+
+### One-time setup (already done — kept for reference)
+
 ### Step 1: Push to GitHub
 ```bash
 git init
 git add .
 git commit -m "Initial site launch"
-git remote add origin https://github.com/Colt45oz/coltonriley.com.git
+git remote add origin https://github.com/Colt45oz/ColtonRiley.com.git
 git push -u origin main
 ```
 
